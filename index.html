@@ -1,164 +1,732 @@
 <!DOCTYPE html>
-<html lang="en-NZ">
+<html lang="en">
 <head>
-<meta charset="UTF-8">
-<title>Cultural Intelligence Self‑Assessment</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cultural Intelligence Self-Assessment</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Quicksand:wght@300;400;500;600;700&display=swap');
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
 
-<!-- Google font -->
-<link rel="preconnect" href="https://fonts.gstatic.com">
-<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+        body {
+            font-family: 'Quicksand', sans-serif;
+            background: #ffffff;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+            color: #f0f0f0;
+        }
 
-<style>
-:root{
-  --uc-black:#000;
-  --uc-red:#C8102E;
-  --uc-grey:#f8f8f8;
-  --gap:1rem;
-}
-*{box-sizing:border-box;font-family:'Poppins',sans-serif;line-height:1.45;}
-body{margin:0;padding:var(--gap);background:var(--uc-grey);color:var(--uc-black);}
-h1{text-align:center;font-weight:600;margin-top:0;color:var(--uc-black);}
-form{max-width:900px;margin:0 auto;background:#fff;padding:var(--gap);border-radius:8px;
-     box-shadow:0 2px 6px rgba(0,0,0,.08);}
-.item{display:flex;flex-wrap:wrap;margin-bottom:var(--gap);}
-.statement{flex:1 1 65%;}
-.options{flex:1 1 35%;display:flex;justify-content:space-between;padding-top:.3rem;}
-.options label{flex:1;text-align:center;}
-.options input{accent-color:var(--uc-red);}
-@media(max-width:720px){
-  .statement,.options{flex:1 1 100%;}
-  .options{justify-content:space-around;}
-}
-button{background:var(--uc-red);border:none;color:#fff;padding:.8rem 1.6rem;border-radius:4px;
-       font-size:1rem;cursor:pointer;margin:1.2rem 0;width:100%;}
-button:hover{opacity:.9;}
-.result{display:none;max-width:900px;margin:0 auto;background:#fff;padding:var(--gap);border-radius:8px;
-        box-shadow:0 2px 6px rgba(0,0,0,.08);margin-top:var(--gap);display:flex;flex-wrap:wrap;}
-.result-text{flex:1 1 40%;padding-right:var(--gap);}
-.result-frame{flex:1 1 60%;min-height:320px;border:none;}
-.progress{height:8px;background:#ddd;margin:var(--gap) 0;border-radius:4px;overflow:hidden;}
-.progress-bar{height:100%;width:0;background:var(--uc-red);transition:width .3s ease;}
-footer{font-size:.85rem;text-align:center;margin-top:2rem;color:#555;}
-</style>
+        .quiz-container {
+            background: #000000;
+            border-radius: 30px;
+            box-shadow: 0 30px 80px rgba(0, 0, 0, 0.4);
+            width: 90%;
+            max-width: 800px;
+            height: 90vh;
+            max-height: 600px;
+            display: flex;
+            flex-direction: column;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .progress-bar {
+            height: 6px;
+            background: rgba(255, 255, 255, 0.05);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #f1c40f 0%, #4CAF50 100%);
+            transition: width 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+            width: 0%;
+        }
+
+        .quiz-header {
+            padding: 35px 30px 25px;
+            text-align: center;
+        }
+
+        .quiz-header h1 {
+            color: #f0f0f0;
+            font-size: 32px;
+            font-weight: 300;
+            letter-spacing: 0.5px;
+        }
+
+        .quiz-content {
+            flex: 1;
+            padding: 15px 40px 20px;
+            overflow-y: auto;
+            overflow-x: hidden;
+            scroll-behavior: smooth;
+        }
+
+        .quiz-content::-webkit-scrollbar {
+            width: 6px;
+        }
+
+        .quiz-content::-webkit-scrollbar-track {
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 3px;
+        }
+
+        .quiz-content::-webkit-scrollbar-thumb {
+            background: rgba(255, 255, 255, 0.2);
+            border-radius: 3px;
+        }
+
+        .rating-scale-hint {
+            text-align: center;
+            color: #666;
+            font-size: 13px;
+            margin-bottom: 15px;
+            padding: 0 40px;
+            line-height: 1.4;
+        }
+
+        .question-group {
+            display: none;
+            opacity: 0;
+        }
+
+        .question-group.active {
+            display: block;
+            animation: gentleFadeIn 1s ease forwards;
+        }
+
+        @keyframes gentleFadeIn {
+            from { 
+                opacity: 0; 
+                transform: translateY(20px);
+            }
+            to { 
+                opacity: 1; 
+                transform: translateY(0);
+            }
+        }
+
+        .question {
+            margin-bottom: 20px;
+            padding: 20px;
+            background: rgba(255, 255, 255, 0.03);
+            border-radius: 20px;
+            transition: background 0.3s ease;
+            border: none;
+        }
+
+        .question:hover {
+            background: rgba(255, 255, 255, 0.06);
+        }
+
+        .question-text {
+            font-size: 16px;
+            color: #e8e8e8;
+            margin-bottom: 18px;
+            line-height: 1.6;
+            font-weight: 400;
+        }
+
+        .rating-options {
+            display: flex;
+            justify-content: space-between;
+            gap: 12px;
+        }
+
+        .rating-option {
+            flex: 1;
+            padding: 14px;
+            background: rgba(255, 255, 255, 0.08);
+            border-radius: 15px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-align: center;
+            font-weight: 500;
+            color: #a0a0a0;
+            font-size: 18px;
+            border: 2px solid transparent;
+            user-select: none;
+            -webkit-user-select: none;
+            -moz-user-select: none;
+            -ms-user-select: none;
+        }
+
+        .rating-option:hover {
+            background: rgba(76, 175, 80, 0.2);
+            color: #ffffff;
+            border-color: rgba(76, 175, 80, 0.3);
+        }
+
+        .rating-option.selected {
+            background: rgba(76, 175, 80, 0.35);
+            color: white;
+            border-color: rgba(76, 175, 80, 0.6);
+        }
+
+        .quiz-navigation {
+            padding: 25px 40px 35px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .nav-button {
+            padding: 14px 35px;
+            border: none;
+            border-radius: 30px;
+            font-size: 17px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.4s ease;
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+            background: rgba(255, 255, 255, 0.1);
+            color: #e0e0e0;
+            font-family: 'Quicksand', sans-serif;
+        }
+
+        .prev-button:hover:not(:disabled) {
+            background: rgba(255, 255, 255, 0.15);
+            transform: translateX(-5px);
+        }
+
+        .next-button:not(:disabled), .submit-button:not(:disabled) {
+            background: rgba(76, 175, 80, 0.3);
+            color: #ffffff;
+        }
+
+        .next-button:hover:not(:disabled), .submit-button:hover:not(:disabled) {
+            background: rgba(76, 175, 80, 0.5);
+            transform: translateX(5px);
+        }
+
+        .nav-button:disabled {
+            opacity: 0.2;
+            cursor: not-allowed;
+        }
+
+        .page-indicator {
+            font-size: 15px;
+            color: #888;
+            font-weight: 400;
+        }
+
+        /* Results Screen */
+        .results-container {
+            display: none;
+            padding: 40px;
+            text-align: center;
+            height: 100%;
+            overflow-y: auto;
+            overflow-x: hidden;
+        }
+
+        .results-container::-webkit-scrollbar {
+            width: 0;
+            display: none;
+        }
+
+        .results-container.active {
+            display: block;
+            animation: gentleFadeIn 1.2s ease;
+        }
+
+        .results-container.tree-kahikatea {
+            background: radial-gradient(ellipse at center, rgba(46, 134, 171, 0.2) 0%, transparent 60%);
+        }
+
+        .results-container.tree-rimu {
+            background: radial-gradient(ellipse at center, rgba(76, 175, 80, 0.2) 0%, transparent 60%);
+        }
+
+        .results-container.tree-matai {
+            background: radial-gradient(ellipse at center, rgba(139, 195, 74, 0.2) 0%, transparent 60%);
+        }
+
+        .results-container.tree-fern {
+            background: radial-gradient(ellipse at center, rgba(52, 152, 219, 0.2) 0%, transparent 60%);
+        }
+
+        .score-display {
+            font-size: 120px;
+            font-weight: 700;
+            color: #f1c40f;
+            margin: 20px 0;
+            text-shadow: 0 0 30px rgba(241, 196, 15, 0.5);
+            animation: gentle-glow 3s ease-in-out infinite;
+        }
+
+        @keyframes gentle-glow {
+            0%, 100% { opacity: 0.8; transform: scale(1); }
+            50% { opacity: 1; transform: scale(1.05); }
+        }
+
+        .score-category {
+            font-size: 28px;
+            color: #f1c40f;
+            margin-bottom: 40px;
+            font-weight: 500;
+            letter-spacing: 1px;
+        }
+
+        .tree-card {
+            padding: 40px;
+            max-width: 600px;
+            margin: 0 auto;
+            position: relative;
+        }
+
+        .tree-name {
+            font-size: 56px;
+            margin-bottom: 25px;
+            font-weight: 700;
+            letter-spacing: 2px;
+        }
+
+        .tree-name.kahikatea {
+            color: #2e86ab;
+            text-shadow: 0 0 30px rgba(46, 134, 171, 0.6);
+        }
+
+        .tree-name.rimu {
+            color: #4CAF50;
+            text-shadow: 0 0 30px rgba(76, 175, 80, 0.6);
+        }
+
+        .tree-name.matai {
+            color: #8BC34A;
+            text-shadow: 0 0 30px rgba(139, 195, 74, 0.6);
+        }
+
+        .tree-name.fern {
+            color: #3498db;
+            text-shadow: 0 0 30px rgba(52, 152, 219, 0.6);
+        }
+
+        .tree-description {
+            font-size: 20px;
+            line-height: 1.8;
+            font-weight: 400;
+            color: #e0e0e0;
+            max-width: 500px;
+            margin: 0 auto;
+        }
+
+        .category-scores {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 25px;
+            margin-top: 50px;
+            padding: 0 20px;
+        }
+
+        .category-score {
+            background: rgba(255, 255, 255, 0.05);
+            padding: 25px;
+            border-radius: 20px;
+            transition: background 0.3s ease;
+        }
+
+        .category-score:hover {
+            background: rgba(255, 255, 255, 0.08);
+        }
+
+        .category-score h3 {
+            color: #f1c40f;
+            margin-bottom: 12px;
+            font-weight: 500;
+            font-size: 16px;
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+        }
+
+        .category-score-value {
+            font-size: 32px;
+            font-weight: 600;
+            color: #4CAF50;
+        }
+
+        .tree-image {
+            width: 250px;
+            height: 250px;
+            margin: 30px auto;
+            display: block;
+            border-radius: 15px;
+            object-fit: contain;
+        }
+
+        @media (max-width: 768px) {
+            .quiz-container {
+                width: 95%;
+                height: 95vh;
+                max-height: none;
+                border-radius: 20px;
+            }
+
+            .rating-options {
+                flex-wrap: wrap;
+            }
+
+            .rating-option {
+                min-width: 45%;
+            }
+
+            .quiz-header h1 {
+                font-size: 26px;
+            }
+
+            .score-display {
+                font-size: 80px;
+            }
+
+            .tree-name {
+                font-size: 42px;
+            }
+
+            .nav-button {
+                padding: 12px 25px;
+                font-size: 15px;
+            }
+        }
+    </style>
 </head>
 <body>
+    <div class="quiz-container">
+        <div class="progress-bar">
+            <div class="progress-fill" id="progressFill"></div>
+        </div>
 
-<h1>Cultural Intelligence Self‑Assessment</h1>
+        <div class="quiz-header">
+            <h1>Cultural Intelligence Self-Assessment</h1>
+        </div>
 
-<form id="cqForm">
-  <p>Rate yourself on each statement. 1 = Strongly Disagree … 5 = Strongly Agree.</p>
-  <div id="items"></div>
-  <div class="progress"><div class="progress-bar" id="progressBar"></div></div>
-  <button type="submit">Submit and View My Result</button>
-</form>
+        <div class="quiz-content" id="quizContent">
+            <!-- Question Groups will be inserted here dynamically -->
+        </div>
 
-<section class="result" id="result">
-  <div class="result-text" id="resultText"></div>
-  <iframe class="result-frame" id="plantFrame" loading="lazy" title="Your CQ Plant"></iframe>
-</section>
+        <div class="quiz-navigation" id="quizNavigation">
+            <button class="nav-button prev-button" id="prevButton">Previous</button>
+            <span class="page-indicator" id="pageIndicator">Section 1 of 4</span>
+            <button class="nav-button next-button" id="nextButton">Next</button>
+        </div>
 
-<footer>&copy; University of Canterbury | For personal reflection only.</footer>
+        <!-- Results Container -->
+        <div class="results-container" id="resultsContainer">
+            <div class="results-main">
+                <div class="tree-section">
+                    <img class="tree-image" id="treeImage" src="" alt="">
+                    <div class="tree-label" id="treeLabel"></div>
+                </div>
+                <div class="info-section">
+                    <div class="tree-description" id="treeDescription"></div>
+                    <div class="cq-level" id="cqLevel"></div>
+                </div>
+            </div>
 
-<script>
-/* ---------- Assessment items ---------- */
-const statements = [
- 'I enjoy interacting with people from different cultural backgrounds.',
- 'I am confident I can adapt when cross‑cultural situations become difficult.',
- 'I actively seek opportunities to work with people from different cultures.',
- 'I find cross‑cultural situations energising rather than draining.',
- 'I believe that experiencing different cultures makes me a better professional.',
- 'I understand how cultural values affect business practices.',
- 'I know the cultural history and traditions of several cultures.',
- 'I understand how culture shapes thinking and behaviour.',
- 'I can identify when cultural differences are affecting a business situation.',
- 'I know how to research and learn about unfamiliar cultures.',
- 'I plan my approach before cross‑cultural interactions.',
- 'I monitor my behaviour during cross‑cultural encounters.',
- 'I adjust my understanding when I receive new cultural information.',
- 'I check whether my cross‑cultural interactions are going well.',
- 'I revise my assumptions about culture based on new experiences.',
- 'I can modify my communication style when needed.',
- 'I adapt my non‑verbal behaviour to different cultural contexts.',
- 'I can change my approach when cross‑cultural situations require it.',
- 'I adjust my leadership style based on cultural context.',
- 'I can negotiate effectively across cultural differences.'
-];
+            <div class="category-scores" id="categoryScores"></div>
+        </div>
+    </div>
 
-/* ---------- Create form controls ---------- */
-const itemsDiv=document.getElementById('items');
-statements.forEach((txt,idx)=>{
-  const wrap=document.createElement('div');wrap.className='item';
-  const p=document.createElement('p');p.textContent=txt;p.className='statement';wrap.appendChild(p);
-  const opts=document.createElement('div');opts.className='options';
-  for(let i=1;i<=5;i++){
-    const lab=document.createElement('label');
-    const radio=document.createElement('input');
-    radio.type='radio';radio.name='q'+idx;radio.value=i;
-    lab.appendChild(radio);lab.appendChild(document.createTextNode(i));
-    opts.appendChild(lab);
-  }
-  wrap.appendChild(opts);itemsDiv.appendChild(wrap);
-});
+    <script>
+        // Questions data
+        var questions = [
+            { id: 1, category: "CQ Drive", text: "I enjoy interacting with people from different cultural backgrounds." },
+            { id: 2, category: "CQ Drive", text: "I am confident I can adapt when cross-cultural situations become difficult." },
+            { id: 3, category: "CQ Drive", text: "I actively seek opportunities to work with people from different cultures." },
+            { id: 4, category: "CQ Drive", text: "I find cross-cultural situations energising rather than draining." },
+            { id: 5, category: "CQ Drive", text: "I believe that experiencing different cultures makes me a better professional." },
+            { id: 6, category: "CQ Knowledge", text: "I understand how cultural values affect business practices." },
+            { id: 7, category: "CQ Knowledge", text: "I know the cultural history and traditions of several cultures." },
+            { id: 8, category: "CQ Knowledge", text: "I understand how culture shapes thinking and behaviour." },
+            { id: 9, category: "CQ Knowledge", text: "I can identify when cultural differences are affecting a business situation." },
+            { id: 10, category: "CQ Knowledge", text: "I know how to research and learn about unfamiliar cultures." },
+            { id: 11, category: "CQ Strategy", text: "I plan my approach before cross-cultural interactions." },
+            { id: 12, category: "CQ Strategy", text: "I monitor my behaviour during cross-cultural encounters." },
+            { id: 13, category: "CQ Strategy", text: "I adjust my understanding when I receive new cultural information." },
+            { id: 14, category: "CQ Strategy", text: "I check whether my cross-cultural interactions are going well." },
+            { id: 15, category: "CQ Strategy", text: "I revise my assumptions about culture based on new experiences." },
+            { id: 16, category: "CQ Action", text: "I can modify my communication style when needed." },
+            { id: 17, category: "CQ Action", text: "I adapt my non-verbal behaviour to different cultural contexts." },
+            { id: 18, category: "CQ Action", text: "I can change my approach when cross-cultural situations require it." },
+            { id: 19, category: "CQ Action", text: "I adjust my leadership style based on cultural context." },
+            { id: 20, category: "CQ Action", text: "I can negotiate effectively across cultural differences." }
+        ];
 
-/* ---------- Progress bar ---------- */
-const progressBar=document.getElementById('progressBar');
-document.querySelectorAll('input[type=radio]').forEach(r=>{
-  r.addEventListener('change',()=>{
-    const done=new Set([...document.querySelectorAll('input:checked')].map(e=>e.name)).size;
-    progressBar.style.width=(done/statements.length)*100+'%';
-  });
-});
+        var questionsPerPage = 5;
+        var currentGroup = 0;
+        var answers = {};
 
-/* ---------- Band → plant mapping ---------- */
-function bandInfo(score){
-  if(score>=80)   return {
-      band:'High Cultural Intelligence',
-      plant:'kahikatea',
-      blurb:'Kahikatea is Aotearoa’s tallest tree – up to 65 m. Your high CQ towers above the canopy and offers a broad vista for intercultural work.'
-  };
-  if(score>=60)   return {
-      band:'Moderate Cultural Intelligence',
-      plant:'rimu',
-      blurb:'Rimu is a lofty NZ podocarp (up to 60 m). Your CQ is solid and well‑rooted – you navigate cultural differences with growing confidence.'
-  };
-  if(score>=40)   return {
-      band:'Developing Cultural Intelligence',
-      plant:'matai',
-      blurb:'Mataī reaches respectable heights yet continues to build strength. Your CQ is developing – keep nourishing it with new experiences.'
-  };
-  return {
-      band:'Beginning Cultural Intelligence',
-      plant:'fern',
-      blurb:'The koru‑shaped fern frond symbolises fresh beginnings. Your CQ journey is just starting – nurture it and watch it unfurl.'
-  };
-}
+        function init() {
+            renderQuestionGroups();
+            showGroup(0);
+            updateProgress();
+            setupEventListeners();
+        }
 
-/* ---------- Submit handler ---------- */
-document.getElementById('cqForm').addEventListener('submit',e=>{
-  e.preventDefault();
-  const picks=[...document.querySelectorAll('input:checked')];
-  if(picks.length<statements.length){
-    alert('Kia ora – please answer every statement before submitting.');
-    return;
-  }
-  const total=picks.reduce((a,b)=>a+Number(b.value),0);
-  const info=bandInfo(total);
+        function renderQuestionGroups() {
+            var quizContent = document.getElementById('quizContent');
+            
+            // Keep the rating scale hint
+            var existingHint = quizContent.querySelector('.rating-scale-hint');
+            quizContent.innerHTML = '';
+            
+            // Re-add the rating scale hint
+            var hint = document.createElement('div');
+            hint.className = 'rating-scale-hint';
+            hint.innerHTML = '1 = Strongly Disagree &nbsp;&nbsp;|&nbsp;&nbsp; 2 = Disagree &nbsp;&nbsp;|&nbsp;&nbsp; 3 = Neutral &nbsp;&nbsp;|&nbsp;&nbsp; 4 = Agree &nbsp;&nbsp;|&nbsp;&nbsp; 5 = Strongly Agree';
+            quizContent.appendChild(hint);
 
-  /* Update text */
-  document.getElementById('resultText').innerHTML=
-    `<h2>${info.band}</h2>
-     <p>You scored <strong>${total}/100</strong>.</p>
-     <p>${info.blurb}</p>`;
+            for (var i = 0; i < questions.length; i += questionsPerPage) {
+                var group = document.createElement('div');
+                group.className = 'question-group';
+                group.id = 'group-' + Math.floor(i / questionsPerPage);
 
-  /* Load plant HTML into iframe */
-  document.getElementById('plantFrame').src=`images/${info.plant}.html`;
+                var groupQuestions = questions.slice(i, i + questionsPerPage);
+                
+                for (var j = 0; j < groupQuestions.length; j++) {
+                    var q = groupQuestions[j];
+                    var questionDiv = document.createElement('div');
+                    questionDiv.className = 'question';
+                    
+                    var questionText = document.createElement('div');
+                    questionText.className = 'question-text';
+                    questionText.textContent = q.id + '. ' + q.text;
+                    
+                    var ratingOptions = document.createElement('div');
+                    ratingOptions.className = 'rating-options';
+                    
+                    for (var rating = 1; rating <= 5; rating++) {
+                        var ratingOption = document.createElement('div');
+                        ratingOption.className = 'rating-option';
+                        ratingOption.setAttribute('data-question', q.id);
+                        ratingOption.setAttribute('data-rating', rating);
+                        ratingOption.id = 'q' + q.id + '-r' + rating;
+                        ratingOption.textContent = rating;
+                        ratingOptions.appendChild(ratingOption);
+                    }
+                    
+                    questionDiv.appendChild(questionText);
+                    questionDiv.appendChild(ratingOptions);
+                    group.appendChild(questionDiv);
+                }
 
-  /* Show result section */
-  document.getElementById('result').style.display='flex';
+                quizContent.appendChild(group);
+            }
+        }
 
-  /* Optional local storage */
-  localStorage.setItem('cqScore',total);
-});
-</script>
+        function showGroup(groupIndex) {
+            currentGroup = groupIndex;
+            
+            var groups = document.querySelectorAll('.question-group');
+            for (var i = 0; i < groups.length; i++) {
+                groups[i].classList.remove('active');
+            }
+
+            var targetGroup = document.getElementById('group-' + groupIndex);
+            if (targetGroup) {
+                targetGroup.classList.add('active');
+            }
+
+            // Scroll to top of quiz content
+            document.getElementById('quizContent').scrollTop = 0;
+
+            updateNavigation();
+            restoreSelections();
+        }
+
+        function selectRating(questionId, rating) {
+            answers[questionId] = rating;
+
+            for (var i = 1; i <= 5; i++) {
+                var elem = document.getElementById('q' + questionId + '-r' + i);
+                if (elem) elem.classList.remove('selected');
+            }
+
+            document.getElementById('q' + questionId + '-r' + rating).classList.add('selected');
+            updateNavigation();
+            updateProgress();
+        }
+
+        function updateNavigation() {
+            var totalGroups = Math.ceil(questions.length / questionsPerPage);
+            var prevButton = document.getElementById('prevButton');
+            var nextButton = document.getElementById('nextButton');
+            var pageIndicator = document.getElementById('pageIndicator');
+
+            prevButton.disabled = currentGroup === 0;
+            
+            var startIdx = currentGroup * questionsPerPage;
+            var endIdx = Math.min(startIdx + questionsPerPage, questions.length);
+            var allAnswered = true;
+            
+            for (var i = startIdx; i < endIdx; i++) {
+                if (!answers[questions[i].id]) {
+                    allAnswered = false;
+                    break;
+                }
+            }
+
+            if (currentGroup === totalGroups - 1) {
+                nextButton.textContent = 'Submit';
+                nextButton.className = 'nav-button submit-button';
+                nextButton.disabled = !allAnswered;
+            } else {
+                nextButton.textContent = 'Next';
+                nextButton.className = 'nav-button next-button';
+                nextButton.disabled = !allAnswered;
+            }
+
+            pageIndicator.textContent = 'Section ' + (currentGroup + 1) + ' of ' + totalGroups;
+        }
+
+        function updateProgress() {
+            var answeredCount = Object.keys(answers).length;
+            var progress = (answeredCount / questions.length) * 100;
+            document.getElementById('progressFill').style.width = progress + '%';
+        }
+
+        function restoreSelections() {
+            for (var qId in answers) {
+                var rating = answers[qId];
+                var elem = document.getElementById('q' + qId + '-r' + rating);
+                if (elem) elem.classList.add('selected');
+            }
+        }
+
+        function calculateScores() {
+            var totalScore = 0;
+            var categoryScores = {
+                "CQ Drive": 0,
+                "CQ Knowledge": 0,
+                "CQ Strategy": 0,
+                "CQ Action": 0
+            };
+
+            for (var i = 0; i < questions.length; i++) {
+                var q = questions[i];
+                var score = answers[q.id] || 0;
+                totalScore += score;
+                categoryScores[q.category] += score;
+            }
+
+            return { totalScore: totalScore, categoryScores: categoryScores };
+        }
+
+        function bandInfo(score) {
+            if (score >= 80) {
+                return {
+                    band: 'You have a high CQ',
+                    plant: 'kahikatea',
+                    displayName: 'Kahikatea',
+                    blurb: 'The Kahikatea tree is the tallest in the NZ Bush (up to 67m)',
+                    image: 'images/kahikatea.png'
+                };
+            } else if (score >= 60) {
+                return {
+                    band: 'You have a moderate CQ',
+                    plant: 'rimu',
+                    displayName: 'Rimu',
+                    blurb: 'The Rimu tree is a tall tree in the NZ Bush (up to 60m)',
+                    image: 'images/rimu.png'
+                };
+            } else if (score >= 40) {
+                return {
+                    band: 'You have a developing CQ',
+                    plant: 'matai',
+                    displayName: 'Matai',
+                    blurb: 'The Matai tree\'s height is mid-range in the NZ Bush (up to 30m)',
+                    image: 'images/matai.png'
+                };
+            } else {
+                return {
+                    band: 'You have a beginning CQ',
+                    plant: 'fern',
+                    displayName: 'Fern',
+                    blurb: 'A fern is one of the smallest plants in the NZ Bush (up to 1m)',
+                    image: 'images/fern.png'
+                };
+            }
+        }
+
+        function submitQuiz() {
+            var scores = calculateScores();
+            var treeData = bandInfo(scores.totalScore);
+
+            document.getElementById('quizContent').style.display = 'none';
+            document.getElementById('quizNavigation').style.display = 'none';
+            
+            var resultsContainer = document.getElementById('resultsContainer');
+            resultsContainer.classList.add('active');
+
+            var treeImage = document.getElementById('treeImage');
+            treeImage.src = treeData.image;
+            treeImage.alt = treeData.displayName + ' illustration';
+            
+            document.getElementById('treeLabel').textContent = treeData.displayName;
+            document.getElementById('treeDescription').textContent = treeData.blurb;
+            document.getElementById('cqLevel').textContent = treeData.band;
+
+            var categoryScoresDiv = document.getElementById('categoryScores');
+            categoryScoresDiv.innerHTML = '';
+            
+            for (var category in scores.categoryScores) {
+                var scoreDiv = document.createElement('div');
+                scoreDiv.className = 'category-score';
+                
+                var heading = document.createElement('h3');
+                heading.textContent = category;
+                
+                var scoreValue = document.createElement('div');
+                scoreValue.className = 'category-score-value';
+                scoreValue.textContent = scores.categoryScores[category] + '/25';
+                
+                scoreDiv.appendChild(heading);
+                scoreDiv.appendChild(scoreValue);
+                categoryScoresDiv.appendChild(scoreDiv);
+            }
+        }
+
+        function setupEventListeners() {
+            document.getElementById('prevButton').addEventListener('click', function() {
+                if (currentGroup > 0) {
+                    showGroup(currentGroup - 1);
+                }
+            });
+
+            document.getElementById('nextButton').addEventListener('click', function() {
+                var totalGroups = Math.ceil(questions.length / questionsPerPage);
+                if (currentGroup === totalGroups - 1) {
+                    submitQuiz();
+                } else if (currentGroup < totalGroups - 1) {
+                    showGroup(currentGroup + 1);
+                }
+            });
+
+            document.addEventListener('click', function(e) {
+                if (e.target.classList.contains('rating-option')) {
+                    var questionId = parseInt(e.target.getAttribute('data-question'));
+                    var rating = parseInt(e.target.getAttribute('data-rating'));
+                    selectRating(questionId, rating);
+                }
+            });
+        }
+
+        // Initialize when DOM is loaded
+        if (document.readyState === 'loading') {
+            document.addEventListener('DOMContentLoaded', init);
+        } else {
+            init();
+        }
+    </script>
 </body>
 </html>
