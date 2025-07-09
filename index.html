@@ -302,117 +302,88 @@
         .ciq-results {
             display: none;
             padding: var(--spacing-xlarge);
-            text-align: center;
             height: 100%;
             overflow-y: auto;
             overflow-x: hidden;
         }
 
         .ciq-results--active {
-            display: block;
+            display: flex;
+            flex-direction: column;
             animation: gentleFadeIn 1.2s ease;
         }
 
-        /* Tree-specific backgrounds */
+        /* Results main layout - side by side */
+        .ciq-results-main {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 60px;
+            flex: 1;
+            padding: 20px;
+        }
+
+        .ciq-tree-section {
+            flex: 0 0 auto;
+        }
+
+        .ciq-info-section {
+            flex: 1;
+            max-width: 500px;
+        }
+
+        /* Tree image - 80% viewport height */
+        .ciq-tree-image {
+            height: 80vh;
+            width: auto;
+            max-width: 100%;
+            display: block;
+            object-fit: contain;
+        }
+
+        /* CQ Level - normal styling */
+        .ciq-cq-level {
+            font-size: 24px;
+            font-weight: 500;
+            color: var(--text-dark);
+            margin-bottom: 20px;
+        }
+
+        /* Tree description */
+        .ciq-tree-description {
+            font-size: 18px;
+            line-height: 1.8;
+            color: var(--text-dark);
+            margin-bottom: 30px;
+        }
+
+        /* Tree-specific backgrounds - keep these for ambiance */
         .ciq-results--tree-kahikatea {
-            background: radial-gradient(ellipse at center, rgba(46, 134, 171, 0.2) 0%, transparent 60%);
+            background: radial-gradient(ellipse at center, rgba(46, 134, 171, 0.1) 0%, transparent 70%);
         }
 
         .ciq-results--tree-rimu {
-            background: radial-gradient(ellipse at center, rgba(76, 175, 80, 0.2) 0%, transparent 60%);
+            background: radial-gradient(ellipse at center, rgba(76, 175, 80, 0.1) 0%, transparent 70%);
         }
 
         .ciq-results--tree-matai {
-            background: radial-gradient(ellipse at center, rgba(139, 195, 74, 0.2) 0%, transparent 60%);
+            background: radial-gradient(ellipse at center, rgba(139, 195, 74, 0.1) 0%, transparent 70%);
         }
 
         .ciq-results--tree-fern {
-            background: radial-gradient(ellipse at center, rgba(52, 152, 219, 0.2) 0%, transparent 60%);
+            background: radial-gradient(ellipse at center, rgba(52, 152, 219, 0.1) 0%, transparent 70%);
         }
 
-        /* Score Display */
-        .ciq-score-display {
-            font-size: 120px;
-            font-weight: 700;
-            color: var(--primary-color);
-            margin: 20px 0;
-            text-shadow: 0 0 30px rgba(241, 196, 15, 0.5);
-            animation: gentle-glow 3s ease-in-out infinite;
-        }
-
-        @keyframes gentle-glow {
-            0%, 100% { opacity: 0.8; transform: scale(1); }
-            50% { opacity: 1; transform: scale(1.05); }
-        }
-
-        .ciq-score-category {
-            font-size: 28px;
-            color: var(--primary-color);
-            margin-bottom: 40px;
-            font-weight: 500;
-            letter-spacing: 1px;
-        }
-
-        /* Tree Card */
-        .ciq-tree-card {
-            padding: var(--spacing-xlarge);
-            max-width: 600px;
-            margin: 0 auto;
-            position: relative;
-        }
-
-        .ciq-tree-name {
-            font-size: 56px;
-            margin-bottom: var(--spacing-large);
-            font-weight: 700;
-            letter-spacing: 2px;
-        }
-
-        .ciq-tree-name--kahikatea {
-            color: #2e86ab;
-            text-shadow: 0 0 30px rgba(46, 134, 171, 0.6);
-        }
-
-        .ciq-tree-name--rimu {
-            color: var(--success-color);
-            text-shadow: 0 0 30px rgba(76, 175, 80, 0.6);
-        }
-
-        .ciq-tree-name--matai {
-            color: #8BC34A;
-            text-shadow: 0 0 30px rgba(139, 195, 74, 0.6);
-        }
-
-        .ciq-tree-name--fern {
-            color: #3498db;
-            text-shadow: 0 0 30px rgba(52, 152, 219, 0.6);
-        }
-
-        .ciq-tree-description {
-            font-size: 20px;
-            line-height: 1.8;
-            font-weight: 400;
-            color: var(--text-light);
-            max-width: 500px;
-            margin: 0 auto;
-        }
-
-        .ciq-tree-image {
-            width: 250px;
-            height: 250px;
-            margin: 30px auto;
-            display: block;
-            border-radius: var(--radius-large);
-            object-fit: contain;
-        }
+        /* Remove old score and tree styles that aren't needed */
 
         /* Category Scores */
         .ciq-category-scores {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
             gap: var(--spacing-large);
-            margin-top: 50px;
-            padding: 0 20px;
+            margin-top: 30px;
+            padding: 20px 0;
+            border-top: 1px solid rgba(0, 0, 0, 0.1);
         }
 
         .ciq-category-score {
@@ -458,13 +429,23 @@
                 min-width: 45%;
             }
 
-            .ciq-header__title {
-                font-size: 26px;
-            }
-
             .ciq-nav__button {
                 padding: 12px 25px;
                 font-size: 15px;
+            }
+
+            /* Stack results vertically on mobile */
+            .ciq-results-main {
+                flex-direction: column;
+                gap: 30px;
+            }
+
+            .ciq-tree-image {
+                height: 50vh;
+            }
+
+            .ciq-info-section {
+                text-align: center;
             }
         }
 
@@ -772,7 +753,7 @@
                         band: 'You have a high CQ',
                         plant: 'kahikatea',
                         displayName: 'Kahikatea',
-                        blurb: 'The Kahikatea tree is the tallest in the NZ Bush (up to 67m)',
+                        blurb: 'Kahikatea is Aotearoa\'s tallest tree – up to 65 m. Your high CQ towers above the canopy and offers a broad vista for intercultural work',
                         image: 'images/kahikatea.png'
                     },
                     {
@@ -780,7 +761,7 @@
                         band: 'You have a moderate CQ',
                         plant: 'rimu',
                         displayName: 'Rimu',
-                        blurb: 'The Rimu tree is a tall tree in the NZ Bush (up to 60m)',
+                        blurb: 'Rimu, one of New Zealand\'s taller trees (up to about 60m), have roots that spread wide. Your CQ is robust and well-rooted with a wide range of understanding. Keep up the great mahi so you can reach new heights.',
                         image: 'images/rimu.png'
                     },
                     {
@@ -788,7 +769,7 @@
                         band: 'You have a developing CQ',
                         plant: 'matai',
                         displayName: 'Matai',
-                        blurb: 'The Matai tree\'s height is mid-range in the NZ Bush (up to 30m)',
+                        blurb: 'Mataī reaches respectable heights yet continues to build strength. Your CQ is developing – keep nourishing it with new experiences.',
                         image: 'images/matai.png'
                     },
                     {
@@ -796,7 +777,7 @@
                         band: 'You have a beginning CQ',
                         plant: 'fern',
                         displayName: 'Fern',
-                        blurb: 'A fern is one of the smallest plants in the NZ Bush (up to 1m)',
+                        blurb: 'The koru‑shaped fern frond symbolises fresh beginnings. Your CQ journey is just starting – nurture it and watch it unfurl.',
                         image: 'images/fern.png'
                     }
                 ];
@@ -824,7 +805,7 @@
                 // Set descriptions
                 elements.treeDescription.textContent = bandInfo.blurb;
                 elements.cqLevel.textContent = bandInfo.band;
-                elements.cqLevel.className = `ciq-cq-level ciq-tree-name ciq-tree-name--${bandInfo.plant}`;
+                elements.cqLevel.className = 'ciq-cq-level';
                 
                 // Create category scores
                 elements.categoryScores.innerHTML = '';
