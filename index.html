@@ -91,33 +91,33 @@
         }
 
         /* Specific scrollbar for quiz content - visible */
-        .ciq-content::-webkit-scrollbar {
+        .quiz-content::-webkit-scrollbar {
             width: 10px;
         }
 
-        .ciq-content::-webkit-scrollbar-track {
+        .quiz-content::-webkit-scrollbar-track {
             background: rgba(0, 0, 0, 0.1);
             border-radius: 10px;
         }
 
-        .ciq-content::-webkit-scrollbar-thumb {
+        .quiz-content::-webkit-scrollbar-thumb {
             background: rgba(0, 0, 0, 0.4);
             border-radius: 10px;
             border: 1px solid var(--bg-color);
         }
 
-        .ciq-content::-webkit-scrollbar-thumb:hover {
+        .quiz-content::-webkit-scrollbar-thumb:hover {
             background: rgba(0, 0, 0, 0.6);
         }
 
         /* Hide scrollbar for results */
-        .ciq-results::-webkit-scrollbar {
+        .quiz-results::-webkit-scrollbar {
             width: 0;
             display: none;
         }
 
         /* Container Styles */
-        .ciq-container {
+        .quiz-container {
             background: var(--bg-color);
             width: 90%;
             max-width: 800px;
@@ -130,14 +130,14 @@
         }
 
         /* Progress Bar */
-        .ciq-progress {
+        .quiz-progress {
             height: 6px;
             background: rgba(255, 255, 255, 0.05);
             position: relative;
             overflow: hidden;
         }
 
-        .ciq-progress__fill {
+        .quiz-progress__fill {
             height: 100%;
             background: linear-gradient(90deg, var(--primary-color) 0%, var(--success-color) 100%);
             transition: var(--transition-slow);
@@ -145,7 +145,7 @@
         }
 
         /* Content Area */
-        .ciq-content {
+        .quiz-content {
             flex: 1;
             padding: 25px 40px 20px;
             overflow-y: auto;
@@ -153,7 +153,7 @@
             scroll-behavior: smooth;
         }
 
-        .ciq-scale-hint {
+        .quiz-scale-hint {
             text-align: left;
             color: var(--text-dim);
             font-size: 14px;
@@ -162,12 +162,12 @@
         }
 
         /* Question Groups */
-        .ciq-question-group {
+        .quiz-question-group {
             display: none;
             opacity: 0;
         }
 
-        .ciq-question-group--active {
+        .quiz-question-group--active {
             display: block;
             animation: gentleFadeIn 1s ease forwards;
         }
@@ -184,7 +184,7 @@
         }
 
         /* Questions */
-        .ciq-question {
+        .quiz-question {
             margin-bottom: 15px;
             padding: var(--spacing-medium);
             background: transparent;
@@ -193,11 +193,11 @@
             border: none;
         }
 
-        .ciq-question:hover {
+        .quiz-question:hover {
             background: transparent;
         }
 
-        .ciq-question__text {
+        .quiz-question__text {
             font-size: 16px;
             color: var(--text-lighter);
             margin-bottom: 18px;
@@ -206,13 +206,13 @@
         }
 
         /* Rating Options */
-        .ciq-rating {
+        .quiz-rating {
             display: flex;
             justify-content: space-between;
             gap: var(--spacing-small);
         }
 
-        .ciq-rating__option {
+        .quiz-rating__option {
             flex: 1;
             padding: 14px;
             background: rgba(255, 255, 255, 0.9);
@@ -231,14 +231,14 @@
             box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
         }
 
-        .ciq-rating__option:hover {
+        .quiz-rating__option:hover {
             background: var(--success-bg);
             color: var(--text-dark);
             border-color: var(--success-color);
             box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
         }
 
-        .ciq-rating__option--selected {
+        .quiz-rating__option--selected {
             background: var(--success-color);
             color: #000000;
             border-color: var(--success-color);
@@ -248,14 +248,14 @@
         }
 
         /* Navigation */
-        .ciq-nav {
+        .quiz-nav {
             padding: 25px 40px 35px;
             display: flex;
             justify-content: space-between;
             align-items: center;
         }
 
-        .ciq-nav__button {
+        .quiz-nav__button {
             padding: 14px 35px;
             border: none;
             border-radius: var(--radius-button);
@@ -270,34 +270,34 @@
             font-family: 'Poppins', sans-serif;
         }
 
-        .ciq-nav__button--prev:hover:not(:disabled) {
+        .quiz-nav__button--prev:hover:not(:disabled) {
             background: rgba(0, 0, 0, 0.15);
         }
 
-        .ciq-nav__button--next:not(:disabled), 
-        .ciq-nav__button--submit:not(:disabled) {
+        .quiz-nav__button--next:not(:disabled), 
+        .quiz-nav__button--submit:not(:disabled) {
             background: var(--success-color);
             color: #ffffff;
         }
 
-        .ciq-nav__button--next:hover:not(:disabled), 
-        .ciq-nav__button--submit:hover:not(:disabled) {
+        .quiz-nav__button--next:hover:not(:disabled), 
+        .quiz-nav__button--submit:hover:not(:disabled) {
             background: #45a049;
         }
 
-        .ciq-nav__button:disabled {
+        .quiz-nav__button:disabled {
             opacity: 0.2;
             cursor: not-allowed;
         }
 
-        .ciq-nav__indicator {
+        .quiz-nav__indicator {
             font-size: 15px;
             color: var(--text-medium);
             font-weight: 400;
         }
 
         /* Results Screen */
-        .ciq-results {
+        .quiz-results {
             display: none;
             padding: var(--spacing-xlarge);
             height: 100%;
@@ -305,14 +305,14 @@
             overflow-x: hidden;
         }
 
-        .ciq-results--active {
+        .quiz-results--active {
             display: flex;
             flex-direction: column;
             animation: gentleFadeIn 1.2s ease;
         }
 
         /* Results main layout - side by side */
-        .ciq-results-main {
+        .quiz-results-main {
             display: flex;
             align-items: center;
             justify-content: center;
@@ -321,17 +321,17 @@
             padding: 20px;
         }
 
-        .ciq-results-image-section {
+        .quiz-results-image-section {
             flex: 0 0 auto;
         }
 
-        .ciq-info-section {
+        .quiz-info-section {
             flex: 1;
             max-width: 500px;
         }
 
         /* Results image - 80% of container height */
-        .ciq-results-image {
+        .quiz-results-image {
             height: 400px;
             max-height: 80%;
             width: auto;
@@ -339,8 +339,8 @@
             object-fit: contain;
         }
 
-        /* CQ Level - normal styling */
-        .ciq-cq-level {
+        /* Quiz Level - normal styling */
+        .quiz-level {
             font-size: 24px;
             font-weight: 500;
             color: var(--text-dark);
@@ -348,7 +348,7 @@
         }
 
         /* Results description */
-        .ciq-results-description {
+        .quiz-results-description {
             font-size: 18px;
             line-height: 1.8;
             color: var(--text-dark);
@@ -356,19 +356,19 @@
         }
 
         /* Results-specific backgrounds - customizable for different themes */
-        .ciq-results--theme-kahikatea {
+        .quiz-results--theme-kahikatea {
             background: radial-gradient(ellipse at center, rgba(46, 134, 171, 0.1) 0%, transparent 70%);
         }
 
-        .ciq-results--theme-rimu {
+        .quiz-results--theme-rimu {
             background: radial-gradient(ellipse at center, rgba(76, 175, 80, 0.1) 0%, transparent 70%);
         }
 
-        .ciq-results--theme-matai {
+        .quiz-results--theme-matai {
             background: radial-gradient(ellipse at center, rgba(139, 195, 74, 0.1) 0%, transparent 70%);
         }
 
-        .ciq-results--theme-fern {
+        .quiz-results--theme-fern {
             background: radial-gradient(ellipse at center, rgba(52, 152, 219, 0.1) 0%, transparent 70%);
         }
 
@@ -376,45 +376,45 @@
 
         /* Mobile Responsive */
         @media (max-width: 768px) {
-            .ciq-container {
+            .quiz-container {
                 width: 95%;
                 height: 95vh;
                 max-height: none;
                 border-radius: var(--radius-xlarge);
             }
 
-            .ciq-rating {
+            .quiz-rating {
                 flex-wrap: wrap;
             }
 
-            .ciq-rating__option {
+            .quiz-rating__option {
                 min-width: 45%;
             }
 
-            .ciq-nav__button {
+            .quiz-nav__button {
                 padding: 12px 25px;
                 font-size: 15px;
             }
 
             /* Stack results vertically on mobile */
-            .ciq-results-main {
+            .quiz-results-main {
                 flex-direction: column;
                 gap: 30px;
             }
 
-            .ciq-results-image {
+            .quiz-results-image {
                 height: 300px;
                 max-height: 80%;
             }
 
-            .ciq-info-section {
+            .quiz-info-section {
                 text-align: center;
             }
         }
 
         /* Accessibility */
-        .ciq-rating__option:focus,
-        .ciq-nav__button:focus {
+        .quiz-rating__option:focus,
+        .quiz-nav__button:focus {
             outline: 3px solid var(--primary-color);
             outline-offset: 2px;
         }
@@ -432,40 +432,40 @@
     </style>
 </head>
 <body>
-    <div class="ciq-container">
+    <div class="quiz-container">
         <!-- Progress Bar -->
-        <div class="ciq-progress" role="progressbar" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0">
-            <div class="ciq-progress__fill" id="progressFill"></div>
+        <div class="quiz-progress" role="progressbar" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0">
+            <div class="quiz-progress__fill" id="progressFill"></div>
         </div>
 
         <!-- Main Content -->
-        <div class="ciq-content" id="quizContent">
-            <div class="ciq-scale-hint" role="note" id="scaleHint">
+        <div class="quiz-content" id="quizContent">
+            <div class="quiz-scale-hint" role="note" id="scaleHint">
                 <!-- Scale hint will be inserted here -->
             </div>
             <!-- Question groups will be inserted here -->
         </div>
 
         <!-- Navigation -->
-        <div class="ciq-nav" id="quizNavigation">
-            <button class="ciq-nav__button ciq-nav__button--prev" id="prevButton" aria-label="Previous section">
+        <div class="quiz-nav" id="quizNavigation">
+            <button class="quiz-nav__button quiz-nav__button--prev" id="prevButton" aria-label="Previous section">
                 Previous
             </button>
-            <span class="ciq-nav__indicator" id="pageIndicator" aria-live="polite">Section 1 of 4</span>
-            <button class="ciq-nav__button ciq-nav__button--next" id="nextButton" aria-label="Next section">
+            <span class="quiz-nav__indicator" id="pageIndicator" aria-live="polite">Section 1 of 4</span>
+            <button class="quiz-nav__button quiz-nav__button--next" id="nextButton" aria-label="Next section">
                 Next
             </button>
         </div>
 
         <!-- Results Container -->
-        <div class="ciq-results" id="resultsContainer" aria-label="Assessment results">
-            <div class="ciq-results-main">
-                <div class="ciq-tree-section">
-                    <img class="ciq-tree-image" id="treeImage" src="" alt="">
+        <div class="quiz-results" id="resultsContainer" aria-label="Assessment results">
+            <div class="quiz-results-main">
+                <div class="quiz-results-image-section">
+                    <img class="quiz-results-image" id="resultsImage" src="" alt="">
                 </div>
-                <div class="ciq-info-section">
-                    <div class="ciq-cq-level" id="cqLevel"></div>
-                    <div class="ciq-tree-description" id="treeDescription"></div>
+                <div class="quiz-info-section">
+                    <div class="quiz-level" id="quizLevel"></div>
+                    <div class="quiz-results-description" id="resultsDescription"></div>
                 </div>
             </div>
         </div>
@@ -606,7 +606,7 @@
                     resultsContainer: document.getElementById('resultsContainer'),
                     resultsImage: document.getElementById('resultsImage'),
                     resultsDescription: document.getElementById('resultsDescription'),
-                    cqLevel: document.getElementById('cqLevel')
+                    quizLevel: document.getElementById('quizLevel')
                 };
             }
 
@@ -620,20 +620,20 @@
 
             createQuestionHTML(question) {
                 const questionDiv = document.createElement('div');
-                questionDiv.className = 'ciq-question';
+                questionDiv.className = 'quiz-question';
                 
                 const questionText = document.createElement('div');
-                questionText.className = 'ciq-question__text';
+                questionText.className = 'quiz-question__text';
                 questionText.textContent = `${question.id}. ${question.text}`;
                 
                 const ratingDiv = document.createElement('div');
-                ratingDiv.className = 'ciq-rating';
+                ratingDiv.className = 'quiz-rating';
                 ratingDiv.setAttribute('role', 'radiogroup');
                 ratingDiv.setAttribute('aria-labelledby', `question-${question.id}`);
                 
                 for (let rating = this.config.ratingScale.min; rating <= this.config.ratingScale.max; rating++) {
                     const option = document.createElement('button');
-                    option.className = 'ciq-rating__option';
+                    option.className = 'quiz-rating__option';
                     option.setAttribute('role', 'radio');
                     option.setAttribute('aria-checked', 'false');
                     option.setAttribute('data-question', question.id);
@@ -655,7 +655,7 @@
                 
                 for (let i = 0; i < totalGroups; i++) {
                     const group = document.createElement('div');
-                    group.className = 'ciq-question-group';
+                    group.className = 'quiz-question-group';
                     group.id = `group-${i}`;
                     
                     const startIdx = i * this.config.questionsPerPage;
@@ -684,7 +684,7 @@
                 const options = document.querySelectorAll(`[data-question="${questionId}"]`);
                 options.forEach(option => {
                     const isSelected = parseInt(option.dataset.rating) === rating;
-                    option.classList.toggle('ciq-rating__option--selected', isSelected);
+                    option.classList.toggle('quiz-rating__option--selected', isSelected);
                     option.setAttribute('aria-checked', isSelected);
                 });
                 
@@ -695,13 +695,13 @@
             showGroup(groupIndex) {
                 this.currentGroup = groupIndex;
                 
-                document.querySelectorAll('.ciq-question-group').forEach(group => {
-                    group.classList.remove('ciq-question-group--active');
+                document.querySelectorAll('.quiz-question-group').forEach(group => {
+                    group.classList.remove('quiz-question-group--active');
                 });
                 
                 const targetGroup = document.getElementById(`group-${groupIndex}`);
                 if (targetGroup) {
-                    targetGroup.classList.add('ciq-question-group--active');
+                    targetGroup.classList.add('quiz-question-group--active');
                 }
                 
                 this.elements.quizContent.scrollTop = 0;
@@ -713,7 +713,7 @@
                 Object.entries(this.answers).forEach(([questionId, rating]) => {
                     const option = document.getElementById(`q${questionId}-r${rating}`);
                     if (option) {
-                        option.classList.add('ciq-rating__option--selected');
+                        option.classList.add('quiz-rating__option--selected');
                         option.setAttribute('aria-checked', 'true');
                     }
                 });
@@ -734,10 +734,10 @@
                 
                 if (isLastGroup) {
                     this.elements.nextButton.textContent = this.config.buttons.submit;
-                    this.elements.nextButton.className = 'ciq-nav__button ciq-nav__button--submit';
+                    this.elements.nextButton.className = 'quiz-nav__button quiz-nav__button--submit';
                 } else {
                     this.elements.nextButton.textContent = this.config.buttons.next;
-                    this.elements.nextButton.className = 'ciq-nav__button ciq-nav__button--next';
+                    this.elements.nextButton.className = 'quiz-nav__button quiz-nav__button--next';
                 }
                 
                 this.elements.nextButton.disabled = !allAnswered;
@@ -748,7 +748,7 @@
                 const answeredCount = Object.keys(this.answers).length;
                 const progress = (answeredCount / this.config.questions.length) * 100;
                 this.elements.progressFill.style.width = `${progress}%`;
-                document.querySelector('.ciq-progress').setAttribute('aria-valuenow', Math.round(progress));
+                document.querySelector('.quiz-progress').setAttribute('aria-valuenow', Math.round(progress));
             }
 
             calculateScores() {
@@ -783,14 +783,20 @@
                 document.getElementById('quizNavigation').style.display = 'none';
                 
                 // Show results
-                this.elements.resultsContainer.classList.add('ciq-results--active');
-                this.elements.resultsContainer.classList.add(`ciq-results--theme-${resultBand.className}`);
+                this.elements.resultsContainer.classList.add('quiz-results--active');
+                this.elements.resultsContainer.classList.add(`quiz-results--theme-${resultBand.className}`);
                 
                 // Set result content
                 this.elements.resultsImage.src = resultBand.image;
                 this.elements.resultsImage.alt = `${resultBand.className} illustration`;
                 this.elements.resultsDescription.textContent = resultBand.description;
-                this.elements.cqLevel.textContent = resultBand.title;
+                this.elements.quizLevel.textContent = resultBand.title;
+                
+                // Add error handling for image
+                this.elements.resultsImage.onerror = () => {
+                    console.error('Failed to load image:', resultBand.image);
+                    this.elements.resultsImage.style.display = 'none';
+                };
                 
                 // Trigger completion event for Rise
                 if (window.parent) {
