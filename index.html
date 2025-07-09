@@ -969,6 +969,62 @@
                     }, '*');
                 }
             }
+            
+            calculateScores() {
+                const categoryScores = this.config.categories.reduce((acc, category) => {
+                    acc[category] = 0;
+                    return acc;
+                }, {});
+                
+                let totalScore = 0;
+                
+                this.config.questions.forEach(question => {
+                    const score = this.answers[question.id] || 0;
+                    totalScore += score;
+                    categoryScores[question.category] += score;
+                });
+                
+                return { totalScore, categoryScores };
+            }
+            
+            getResultBand(scores) {
+                return this.config.results.bands.find(band => 
+                    scores.totalScore >= band.minScore && scores.totalScore <= band.maxScore
+                );
+            }
+                
+                // Hide quiz elements
+                this.elements.quizContent.style.display = 'none';
+                document.getElementById('quizNavigation').style.display = 'none';
+                
+                // Show results
+                this.elements.resultsContainer.classList.add('quiz-results--active');
+                this.elements.resultsContainer.classList.add(`quiz-results--theme-${resultBand.className}`);
+                
+                // Set result content
+                this.elements.resultsImage.src = resultBand.image;
+                this.elements.resultsImage.alt = `${resultBand.className} illustration`;
+                this.elements.resultsDescription.textContent = resultBand.description;
+                this.elements.quizLevel.textContent = resultBand.title;
+                
+                // Add error handling for image
+                this.elements.resultsImage.onerror = () => {
+                    console.error('Failed to load image:', resultBand.image);
+                    this.elements.resultsImage.style.display = 'none';
+                };
+                
+                // Log scores for debugging
+                console.log('Quiz completed with scores:', scores);
+                
+                // Trigger completion event for Rise
+                if (window.parent) {
+                    window.parent.postMessage({
+                        type: 'quiz-complete',
+                        scores: scores,
+                        result: resultBand.title
+                    }, '*');
+                }
+            }
 
             handlePrevious() {
                 if (this.currentGroup > 0) {
