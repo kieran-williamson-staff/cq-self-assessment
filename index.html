@@ -1,42 +1,45 @@
 <!DOCTYPE html>
 <html lang="en-NZ">
 <head>
-  <meta charset="UTF-8">
-  <title>Cultural Intelligence Self‑Assessment</title>
+<meta charset="UTF-8">
+<title>Cultural Intelligence Self‑Assessment</title>
 
-  <!-- Google font -->
-  <link rel="preconnect" href="https://fonts.gstatic.com">
-  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+<!-- Google font -->
+<link rel="preconnect" href="https://fonts.gstatic.com">
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
 
-  <style>
-    :root{
-      --uc-black:#000;
-      --uc-red:#C8102E;
-      --uc-grey:#f8f8f8;
-      --gap:1rem;
-    }
-    *{box-sizing:border-box;font-family:'Poppins',sans-serif;line-height:1.45;}
-    body{margin:0;padding:var(--gap);background:var(--uc-grey);color:var(--uc-black);}
-    h1{text-align:center;font-weight:600;margin-top:0;}
-    form{max-width:900px;margin:0 auto;background:#fff;padding:var(--gap);border-radius:8px;box-shadow:0 2px 6px rgba(0,0,0,.08);}
-    .item {display:flex;flex-wrap:wrap;margin-bottom:var(--gap);}
-    .statement{flex:1 1 65%;}
-    .options{flex:1 1 35%;display:flex;justify-content:space-between;padding-top:0.3rem;}
-    .options label{flex:1;text-align:center;}
-    .options input{accent-color:var(--uc-red);}
-    @media(max-width:720px){
-      .statement, .options{flex:1 1 100%;}
-      .options{justify-content:space-around;}
-    }
-    button{background:var(--uc-red);border:none;color:#fff;padding:0.8rem 1.6rem;border-radius:4px;font-size:1rem;cursor:pointer;margin:1.2rem 0;width:100%;}
-    button:hover{opacity:.9;}
-    .result, .images{display:none;}
-    .score-band{font-weight:600;font-size:1.2rem;}
-    .progress{height:8px;background:#ddd;margin:var(--gap) 0;border-radius:4px;overflow:hidden;}
-    .progress-bar{height:100%;width:0;background:var(--uc-red);transition:width .3s ease;}
-    footer{font-size:.85rem;text-align:center;margin-top:2rem;color:#555;}
-    img.quiz-img{max-width:100%;height:auto;display:block;margin:0 auto var(--gap);}
-  </style>
+<style>
+:root{
+  --uc-black:#000;
+  --uc-red:#C8102E;
+  --uc-grey:#f8f8f8;
+  --gap:1rem;
+}
+*{box-sizing:border-box;font-family:'Poppins',sans-serif;line-height:1.45;}
+body{margin:0;padding:var(--gap);background:var(--uc-grey);color:var(--uc-black);}
+h1{text-align:center;font-weight:600;margin-top:0;color:var(--uc-black);}
+form{max-width:900px;margin:0 auto;background:#fff;padding:var(--gap);border-radius:8px;
+     box-shadow:0 2px 6px rgba(0,0,0,.08);}
+.item{display:flex;flex-wrap:wrap;margin-bottom:var(--gap);}
+.statement{flex:1 1 65%;}
+.options{flex:1 1 35%;display:flex;justify-content:space-between;padding-top:.3rem;}
+.options label{flex:1;text-align:center;}
+.options input{accent-color:var(--uc-red);}
+@media(max-width:720px){
+  .statement,.options{flex:1 1 100%;}
+  .options{justify-content:space-around;}
+}
+button{background:var(--uc-red);border:none;color:#fff;padding:.8rem 1.6rem;border-radius:4px;
+       font-size:1rem;cursor:pointer;margin:1.2rem 0;width:100%;}
+button:hover{opacity:.9;}
+.result{display:none;max-width:900px;margin:0 auto;background:#fff;padding:var(--gap);border-radius:8px;
+        box-shadow:0 2px 6px rgba(0,0,0,.08);margin-top:var(--gap);display:flex;flex-wrap:wrap;}
+.result-text{flex:1 1 40%;padding-right:var(--gap);}
+.result-frame{flex:1 1 60%;min-height:320px;border:none;}
+.progress{height:8px;background:#ddd;margin:var(--gap) 0;border-radius:4px;overflow:hidden;}
+.progress-bar{height:100%;width:0;background:var(--uc-red);transition:width .3s ease;}
+footer{font-size:.85rem;text-align:center;margin-top:2rem;color:#555;}
+</style>
 </head>
 <body>
 
@@ -44,119 +47,116 @@
 
 <form id="cqForm">
   <p>Rate yourself on each statement. 1 = Strongly Disagree … 5 = Strongly Agree.</p>
-
   <div id="items"></div>
-
   <div class="progress"><div class="progress-bar" id="progressBar"></div></div>
-
-  <button type="submit">Submit and View My Score</button>
+  <button type="submit">Submit and View My Result</button>
 </form>
 
 <section class="result" id="result">
-  <p>You scored <span id="score"></span>/100.  
-  <span class="score-band" id="band"></span></p>
+  <div class="result-text" id="resultText"></div>
+  <iframe class="result-frame" id="plantFrame" loading="lazy" title="Your CQ Plant"></iframe>
 </section>
 
-<section class="images" id="images">
-  <h2>Next Steps</h2>
-  <p>Explore these resources to deepen your cultural intelligence.</p>
-  <!-- Replace src paths with your actual image filenames or CDN links -->
-  <img class="quiz-img" src="images/cq_drive.png" alt="CQ Drive illustration">
-  <img class="quiz-img" src="images/cq_knowledge.png" alt="CQ Knowledge illustration">
-  <img class="quiz-img" src="images/cq_strategy.png" alt="CQ Strategy illustration">
-  <img class="quiz-img" src="images/cq_action.png" alt="CQ Action illustration">
-</section>
-
-<footer>&copy; University of Canterbury | This quiz is for personal reflection only.</footer>
+<footer>&copy; University of Canterbury | For personal reflection only.</footer>
 
 <script>
-/* ---------- Generate the items from an array ---------- */
+/* ---------- Assessment items ---------- */
 const statements = [
-  // Drive
-  'I enjoy interacting with people from different cultural backgrounds.',
-  'I am confident I can adapt when cross‑cultural situations become difficult.',
-  'I actively seek opportunities to work with people from different cultures.',
-  'I find cross‑cultural situations energising rather than draining.',
-  'I believe that experiencing different cultures makes me a better professional.',
-  // Knowledge
-  'I understand how cultural values affect business practices.',
-  'I know the cultural history and traditions of several cultures.',
-  'I understand how culture shapes thinking and behaviour.',
-  'I can identify when cultural differences are affecting a business situation.',
-  'I know how to research and learn about unfamiliar cultures.',
-  // Strategy
-  'I plan my approach before cross‑cultural interactions.',
-  'I monitor my behaviour during cross‑cultural encounters.',
-  'I adjust my understanding when I receive new cultural information.',
-  'I check whether my cross‑cultural interactions are going well.',
-  'I revise my assumptions about culture based on new experiences.',
-  // Action
-  'I can modify my communication style when needed.',
-  'I adapt my non‑verbal behaviour to different cultural contexts.',
-  'I can change my approach when cross‑cultural situations require it.',
-  'I adjust my leadership style based on cultural context.',
-  'I can negotiate effectively across cultural differences.'
+ 'I enjoy interacting with people from different cultural backgrounds.',
+ 'I am confident I can adapt when cross‑cultural situations become difficult.',
+ 'I actively seek opportunities to work with people from different cultures.',
+ 'I find cross‑cultural situations energising rather than draining.',
+ 'I believe that experiencing different cultures makes me a better professional.',
+ 'I understand how cultural values affect business practices.',
+ 'I know the cultural history and traditions of several cultures.',
+ 'I understand how culture shapes thinking and behaviour.',
+ 'I can identify when cultural differences are affecting a business situation.',
+ 'I know how to research and learn about unfamiliar cultures.',
+ 'I plan my approach before cross‑cultural interactions.',
+ 'I monitor my behaviour during cross‑cultural encounters.',
+ 'I adjust my understanding when I receive new cultural information.',
+ 'I check whether my cross‑cultural interactions are going well.',
+ 'I revise my assumptions about culture based on new experiences.',
+ 'I can modify my communication style when needed.',
+ 'I adapt my non‑verbal behaviour to different cultural contexts.',
+ 'I can change my approach when cross‑cultural situations require it.',
+ 'I adjust my leadership style based on cultural context.',
+ 'I can negotiate effectively across cultural differences.'
 ];
 
-const itemsDiv = document.getElementById('items');
-statements.forEach((txt, idx) =>{
-  const wrapper = document.createElement('div');
-  wrapper.className = 'item';
-  const p = document.createElement('p');
-  p.textContent = txt;
-  p.className = 'statement';
-  wrapper.appendChild(p);
-
-  const opts = document.createElement('div');
-  opts.className = 'options';
-
+/* ---------- Create form controls ---------- */
+const itemsDiv=document.getElementById('items');
+statements.forEach((txt,idx)=>{
+  const wrap=document.createElement('div');wrap.className='item';
+  const p=document.createElement('p');p.textContent=txt;p.className='statement';wrap.appendChild(p);
+  const opts=document.createElement('div');opts.className='options';
   for(let i=1;i<=5;i++){
-    const label = document.createElement('label');
-    const radio = document.createElement('input');
-    radio.type='radio';
-    radio.name='q'+idx;
-    radio.value=i;
-    label.appendChild(radio);
-    label.appendChild(document.createTextNode(i));
-    opts.appendChild(label);
+    const lab=document.createElement('label');
+    const radio=document.createElement('input');
+    radio.type='radio';radio.name='q'+idx;radio.value=i;
+    lab.appendChild(radio);lab.appendChild(document.createTextNode(i));
+    opts.appendChild(lab);
   }
-  wrapper.appendChild(opts);
-  itemsDiv.appendChild(wrapper);
+  wrap.appendChild(opts);itemsDiv.appendChild(wrap);
 });
 
-/* ---------- Progress bar feedback ---------- */
-const progressBar = document.getElementById('progressBar');
+/* ---------- Progress bar ---------- */
+const progressBar=document.getElementById('progressBar');
 document.querySelectorAll('input[type=radio]').forEach(r=>{
   r.addEventListener('change',()=>{
-    const answered = new Set([...document.querySelectorAll('input[type=radio]:checked')].map(e=>e.name)).size;
-    progressBar.style.width = (answered/statements.length)*100 + '%';
+    const done=new Set([...document.querySelectorAll('input:checked')].map(e=>e.name)).size;
+    progressBar.style.width=(done/statements.length)*100+'%';
   });
 });
 
-/* ---------- Handle submission ---------- */
-document.getElementById('cqForm').addEventListener('submit', e=>{
+/* ---------- Band → plant mapping ---------- */
+function bandInfo(score){
+  if(score>=80)   return {
+      band:'High Cultural Intelligence',
+      plant:'kahikatea',
+      blurb:'Kahikatea is Aotearoa’s tallest tree – up to 65 m. Your high CQ towers above the canopy and offers a broad vista for intercultural work.'
+  };
+  if(score>=60)   return {
+      band:'Moderate Cultural Intelligence',
+      plant:'rimu',
+      blurb:'Rimu is a lofty NZ podocarp (up to 60 m). Your CQ is solid and well‑rooted – you navigate cultural differences with growing confidence.'
+  };
+  if(score>=40)   return {
+      band:'Developing Cultural Intelligence',
+      plant:'matai',
+      blurb:'Mataī reaches respectable heights yet continues to build strength. Your CQ is developing – keep nourishing it with new experiences.'
+  };
+  return {
+      band:'Beginning Cultural Intelligence',
+      plant:'fern',
+      blurb:'The koru‑shaped fern frond symbolises fresh beginnings. Your CQ journey is just starting – nurture it and watch it unfurl.'
+  };
+}
+
+/* ---------- Submit handler ---------- */
+document.getElementById('cqForm').addEventListener('submit',e=>{
   e.preventDefault();
-  const scores = [...document.querySelectorAll('input[type=radio]:checked')].map(r=>+r.value);
-  if(scores.length < statements.length){
+  const picks=[...document.querySelectorAll('input:checked')];
+  if(picks.length<statements.length){
     alert('Kia ora – please answer every statement before submitting.');
     return;
   }
-  const total = scores.reduce((a,b)=>a+b,0);
-  const scoreEl = document.getElementById('score');
-  const bandEl  = document.getElementById('band');
-  scoreEl.textContent = total;
+  const total=picks.reduce((a,b)=>a+Number(b.value),0);
+  const info=bandInfo(total);
 
-  let band='';
-  if(total>=80)      band='High Cultural Intelligence';
-  else if(total>=60) band='Moderate Cultural Intelligence';
-  else if(total>=40) band='Developing Cultural Intelligence';
-  else               band='Beginning Cultural Intelligence';
-  bandEl.textContent = '('+band+')';
+  /* Update text */
+  document.getElementById('resultText').innerHTML=
+    `<h2>${info.band}</h2>
+     <p>You scored <strong>${total}/100</strong>.</p>
+     <p>${info.blurb}</p>`;
 
-  document.getElementById('result').style.display='block';
-  document.getElementById('images').style.display='block';
+  /* Load plant HTML into iframe */
+  document.getElementById('plantFrame').src=`images/${info.plant}.html`;
 
-  /* Optional: store score locally so learner can revisit */
+  /* Show result section */
+  document.getElementById('result').style.display='flex';
+
+  /* Optional local storage */
   localStorage.setItem('cqScore',total);
 });
 </script>
