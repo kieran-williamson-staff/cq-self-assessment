@@ -376,41 +376,7 @@
 
         /* Remove old score and tree styles that aren't needed */
 
-        /* Category Scores */
-        .ciq-category-scores {
-            display: grid;
-            grid-template-columns: repeat(2, 1fr);
-            gap: var(--spacing-large);
-            margin-top: 30px;
-            padding: 20px 0;
-            border-top: 1px solid rgba(0, 0, 0, 0.1);
-        }
 
-        .ciq-category-score {
-            background: var(--bg-overlay-medium);
-            padding: var(--spacing-large);
-            border-radius: var(--radius-xlarge);
-            transition: var(--transition-default);
-        }
-
-        .ciq-category-score:hover {
-            background: var(--bg-overlay-heavy);
-        }
-
-        .ciq-category-score h3 {
-            color: var(--primary-color);
-            margin-bottom: var(--spacing-small);
-            font-weight: 500;
-            font-size: 16px;
-            text-transform: uppercase;
-            letter-spacing: 1.5px;
-        }
-
-        .ciq-category-score-value {
-            font-size: 32px;
-            font-weight: 600;
-            color: var(--success-color);
-        }
 
         /* Mobile Responsive */
         @media (max-width: 768px) {
@@ -579,7 +545,6 @@
                 elements.treeImage = document.getElementById('treeImage');
                 elements.treeDescription = document.getElementById('treeDescription');
                 elements.cqLevel = document.getElementById('cqLevel');
-                elements.categoryScores = document.getElementById('categoryScores');
             }
 
             // Create question HTML
@@ -807,25 +772,6 @@
                 elements.treeDescription.textContent = bandInfo.blurb;
                 elements.cqLevel.textContent = bandInfo.band;
                 elements.cqLevel.className = 'ciq-cq-level';
-                
-                // Create category scores
-                elements.categoryScores.innerHTML = '';
-                
-                Object.entries(scores.categoryScores).forEach(([category, score]) => {
-                    const scoreDiv = document.createElement('div');
-                    scoreDiv.className = 'ciq-category-score';
-                    
-                    const heading = document.createElement('h3');
-                    heading.textContent = category;
-                    
-                    const scoreValue = document.createElement('div');
-                    scoreValue.className = 'ciq-category-score-value';
-                    scoreValue.textContent = `${score}/${CONFIG.categoryMaxScore}`;
-                    
-                    scoreDiv.appendChild(heading);
-                    scoreDiv.appendChild(scoreValue);
-                    elements.categoryScores.appendChild(scoreDiv);
-                });
                 
                 // Trigger completion event for Rise
                 if (window.parent) {
