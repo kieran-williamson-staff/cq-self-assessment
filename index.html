@@ -385,12 +385,13 @@
                 font-size: 26px;
             }
 
-            .score-display {
-                font-size: 80px;
+            .results-main {
+                flex-direction: column;
+                gap: 30px;
             }
 
-            .tree-name {
-                font-size: 42px;
+            .info-section {
+                text-align: center;
             }
 
             .nav-button {
@@ -425,7 +426,6 @@
             <div class="results-main">
                 <div class="tree-section">
                     <img class="tree-image" id="treeImage" src="" alt="">
-                    <div class="tree-label" id="treeLabel"></div>
                 </div>
                 <div class="info-section">
                     <div class="tree-description" id="treeDescription"></div>
@@ -644,8 +644,8 @@
                     band: 'You have a developing CQ',
                     plant: 'matai',
                     displayName: 'Matai',
-                    blurb: 'The Mataī tree\'s height is mid-range in the NZ Bush (up to 30m)',
-                    image: 'images/mataī.png'
+                    blurb: 'The Matai tree\'s height is mid-range in the NZ Bush (up to 30m)',
+                    image: 'images/matai.png'
                 };
             } else {
                 return {
@@ -672,9 +672,11 @@
             treeImage.src = treeData.image;
             treeImage.alt = treeData.displayName + ' illustration';
             
-            document.getElementById('treeLabel').textContent = treeData.displayName;
             document.getElementById('treeDescription').textContent = treeData.blurb;
-            document.getElementById('cqLevel').textContent = treeData.band;
+            
+            var cqLevel = document.getElementById('cqLevel');
+            cqLevel.textContent = treeData.band;
+            cqLevel.className = 'cq-level ' + treeData.plant;
 
             var categoryScoresDiv = document.getElementById('categoryScores');
             categoryScoresDiv.innerHTML = '';
