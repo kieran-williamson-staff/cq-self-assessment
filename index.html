@@ -5,54 +5,120 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Cultural Intelligence Self-Assessment</title>
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Quicksand:wght@300;400;500;600;700&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap');
         
+        /* CSS Reset and Base Styles */
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
         }
 
+        /* Root Variables - Original Design Values */
+        :root {
+            /* Colors */
+            --primary-color: #f1c40f;
+            --bg-color: #faecea;
+            --text-light: #4a4a4a;
+            --text-lighter: #3a3a3a;
+            --text-dark: #2a2a2a;
+            --text-gray: #5a5a5a;
+            --text-medium: #6a6a6a;
+            --text-dim: #7a7a7a;
+            
+            --bg-overlay-light: rgba(255, 255, 255, 0.5);
+            --bg-overlay-medium: rgba(255, 255, 255, 0.6);
+            --bg-overlay-hover: rgba(255, 255, 255, 0.7);
+            --bg-overlay-heavy: rgba(255, 255, 255, 0.8);
+            --bg-overlay-button: rgba(255, 255, 255, 0.7);
+            --bg-overlay-button-hover: rgba(255, 255, 255, 0.85);
+            
+            --success-color: #4CAF50;
+            --success-bg: rgba(76, 175, 80, 0.2);
+            --success-bg-light: rgba(76, 175, 80, 0.3);
+            --success-bg-medium: rgba(76, 175, 80, 0.35);
+            --success-bg-heavy: rgba(76, 175, 80, 0.5);
+            --success-border: rgba(76, 175, 80, 0.6);
+            
+            --transition-default: all 0.3s ease;
+            --transition-smooth: all 0.4s ease;
+            --transition-slow: width 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+            
+            --radius-small: 3px;
+            --radius-medium: 8px;
+            --radius-large: 15px;
+            --radius-xlarge: 20px;
+            --radius-button: 30px;
+            
+            --spacing-small: 12px;
+            --spacing-medium: 20px;
+            --spacing-large: 25px;
+            --spacing-xlarge: 40px;
+        }
+
         body {
-            font-family: 'Quicksand', sans-serif;
-            background: #ffffff;
+            font-family: 'Poppins', sans-serif;
+            background: var(--bg-color);
             min-height: 100vh;
             display: flex;
             align-items: center;
             justify-content: center;
             overflow: hidden;
-            color: #f0f0f0;
+            color: var(--text-dark);
+            margin: 0;
+            padding: 0;
         }
 
-        /* Force scrollbar styling globally */
-        body::-webkit-scrollbar,
-        div::-webkit-scrollbar {
-            width: 16px !important;
-            height: 16px !important;
+        /* Universal scrollbar styling */
+        *::-webkit-scrollbar {
+            width: 12px;
+            height: 12px;
         }
 
-        body::-webkit-scrollbar-track,
-        div::-webkit-scrollbar-track {
-            background: rgba(200, 200, 200, 0.3) !important;
-            border-radius: 8px !important;
+        *::-webkit-scrollbar-track {
+            background: rgba(0, 0, 0, 0.1);
+            border-radius: var(--radius-medium);
         }
 
-        body::-webkit-scrollbar-thumb,
-        div::-webkit-scrollbar-thumb {
-            background: rgba(255, 255, 255, 0.9) !important;
-            border-radius: 8px !important;
-            border: 2px solid rgba(0, 0, 0, 0.1) !important;
+        *::-webkit-scrollbar-thumb {
+            background: rgba(0, 0, 0, 0.4);
+            border-radius: var(--radius-medium);
+            border: 2px solid var(--bg-color);
         }
 
-        body::-webkit-scrollbar-thumb:hover,
-        div::-webkit-scrollbar-thumb:hover {
-            background: #ffffff !important;
+        *::-webkit-scrollbar-thumb:hover {
+            background: rgba(0, 0, 0, 0.6);
         }
 
-        .quiz-container {
-            background: #000000;
-            border-radius: 30px;
-            box-shadow: 0 30px 80px rgba(0, 0, 0, 0.4);
+        /* Specific scrollbar for quiz content - visible */
+        .ciq-content::-webkit-scrollbar {
+            width: 10px;
+        }
+
+        .ciq-content::-webkit-scrollbar-track {
+            background: rgba(0, 0, 0, 0.1);
+            border-radius: var(--radius-small);
+        }
+
+        .ciq-content::-webkit-scrollbar-thumb {
+            background: rgba(0, 0, 0, 0.4);
+            border-radius: var(--radius-small);
+            border: 1px solid var(--bg-color);
+        }
+
+        .ciq-content::-webkit-scrollbar-thumb:hover {
+            background: rgba(0, 0, 0, 0.6);
+        }
+
+        /* Hide scrollbar for results */
+        .ciq-results::-webkit-scrollbar {
+            width: 0;
+            display: none;
+        }
+
+        /* Container Styles */
+        .ciq-container {
+            background: var(--bg-color);
             width: 90%;
             max-width: 800px;
             height: 90vh;
@@ -63,69 +129,47 @@
             overflow: hidden;
         }
 
-        .progress-bar {
+        /* Progress Bar */
+        .ciq-progress {
             height: 6px;
             background: rgba(255, 255, 255, 0.05);
             position: relative;
             overflow: hidden;
         }
 
-        .progress-fill {
+        .ciq-progress__fill {
             height: 100%;
-            background: linear-gradient(90deg, #f1c40f 0%, #4CAF50 100%);
-            transition: width 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+            background: linear-gradient(90deg, var(--primary-color) 0%, var(--success-color) 100%);
+            transition: var(--transition-slow);
             width: 0%;
         }
 
-        .quiz-header {
-            padding: 35px 30px 25px;
-            text-align: center;
-        }
 
-        .quiz-header h1 {
-            color: #f0f0f0;
-            font-size: 32px;
-            font-weight: 300;
-            letter-spacing: 0.5px;
-        }
 
-        .quiz-content {
+        /* Content Area */
+        .ciq-content {
             flex: 1;
-            padding: 15px 40px 20px;
+            padding: 25px 40px 20px;
             overflow-y: auto;
             overflow-x: hidden;
             scroll-behavior: smooth;
         }
 
-        .quiz-content::-webkit-scrollbar {
-            width: 6px;
-        }
-
-        .quiz-content::-webkit-scrollbar-track {
-            background: rgba(255, 255, 255, 0.05);
-            border-radius: 3px;
-        }
-
-        .quiz-content::-webkit-scrollbar-thumb {
-            background: rgba(255, 255, 255, 0.2);
-            border-radius: 3px;
-        }
-
-        .rating-scale-hint {
-            text-align: center;
-            color: #666;
-            font-size: 13px;
+        .ciq-scale-hint {
+            text-align: left;
+            color: var(--text-dim);
+            font-size: 16px;
             margin-bottom: 15px;
-            padding: 0 40px;
-            line-height: 1.4;
+            line-height: 1.6;
         }
 
-        .question-group {
+        /* Question Groups */
+        .ciq-question-group {
             display: none;
             opacity: 0;
         }
 
-        .question-group.active {
+        .ciq-question-group--active {
             display: block;
             animation: gentleFadeIn 1s ease forwards;
         }
@@ -141,151 +185,156 @@
             }
         }
 
-        .question {
-            margin-bottom: 20px;
-            padding: 20px;
-            background: rgba(255, 255, 255, 0.03);
-            border-radius: 20px;
-            transition: background 0.3s ease;
+        /* Questions */
+        .ciq-question {
+            margin-bottom: var(--spacing-medium);
+            padding: var(--spacing-medium);
+            background: transparent;
+            border-radius: var(--radius-xlarge);
+            transition: var(--transition-default);
             border: none;
         }
 
-        .question:hover {
-            background: rgba(255, 255, 255, 0.06);
+        .ciq-question:hover {
+            background: transparent;
         }
 
-        .question-text {
+        .ciq-question__text {
             font-size: 16px;
-            color: #e8e8e8;
+            color: var(--text-lighter);
             margin-bottom: 18px;
             line-height: 1.6;
             font-weight: 400;
         }
 
-        .rating-options {
+        /* Rating Options */
+        .ciq-rating {
             display: flex;
             justify-content: space-between;
-            gap: 12px;
+            gap: var(--spacing-small);
         }
 
-        .rating-option {
+        .ciq-rating__option {
             flex: 1;
             padding: 14px;
-            background: rgba(255, 255, 255, 0.08);
-            border-radius: 15px;
+            background: rgba(255, 255, 255, 0.9);
+            border-radius: var(--radius-large);
             cursor: pointer;
-            transition: all 0.3s ease;
+            transition: var(--transition-default);
             text-align: center;
-            font-weight: 500;
-            color: #a0a0a0;
+            font-weight: 600;
+            color: var(--text-dark);
             font-size: 18px;
-            border: 2px solid transparent;
+            border: 2px solid rgba(0, 0, 0, 0.1);
             user-select: none;
             -webkit-user-select: none;
             -moz-user-select: none;
             -ms-user-select: none;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
         }
 
-        .rating-option:hover {
-            background: rgba(76, 175, 80, 0.2);
-            color: #ffffff;
-            border-color: rgba(76, 175, 80, 0.3);
+        .ciq-rating__option:hover {
+            background: var(--success-bg);
+            color: var(--text-dark);
+            border-color: var(--success-color);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
         }
 
-        .rating-option.selected {
-            background: rgba(76, 175, 80, 0.35);
-            color: white;
-            border-color: rgba(76, 175, 80, 0.6);
+        .ciq-rating__option--selected {
+            background: var(--success-color);
+            color: #000000;
+            border-color: var(--success-color);
+            font-weight: 700;
+            transform: scale(1.05);
+            box-shadow: 0 4px 12px rgba(76, 175, 80, 0.4);
         }
 
-        .quiz-navigation {
+        /* Navigation */
+        .ciq-nav {
             padding: 25px 40px 35px;
             display: flex;
             justify-content: space-between;
             align-items: center;
         }
 
-        .nav-button {
+        .ciq-nav__button {
             padding: 14px 35px;
             border: none;
-            border-radius: 30px;
+            border-radius: var(--radius-button);
             font-size: 17px;
             font-weight: 500;
             cursor: pointer;
-            transition: all 0.4s ease;
+            transition: var(--transition-smooth);
             text-transform: uppercase;
             letter-spacing: 1.5px;
-            background: rgba(255, 255, 255, 0.1);
-            color: #e0e0e0;
-            font-family: 'Quicksand', sans-serif;
+            background: rgba(0, 0, 0, 0.1);
+            color: var(--text-dark);
+            font-family: 'Poppins', sans-serif;
         }
 
-        .prev-button:hover:not(:disabled) {
-            background: rgba(255, 255, 255, 0.15);
-            transform: translateX(-5px);
+        .ciq-nav__button--prev:hover:not(:disabled) {
+            background: rgba(0, 0, 0, 0.15);
         }
 
-        .next-button:not(:disabled), .submit-button:not(:disabled) {
-            background: rgba(76, 175, 80, 0.3);
+        .ciq-nav__button--next:not(:disabled), 
+        .ciq-nav__button--submit:not(:disabled) {
+            background: var(--success-color);
             color: #ffffff;
         }
 
-        .next-button:hover:not(:disabled), .submit-button:hover:not(:disabled) {
-            background: rgba(76, 175, 80, 0.5);
-            transform: translateX(5px);
+        .ciq-nav__button--next:hover:not(:disabled), 
+        .ciq-nav__button--submit:hover:not(:disabled) {
+            background: #45a049;
         }
 
-        .nav-button:disabled {
+        .ciq-nav__button:disabled {
             opacity: 0.2;
             cursor: not-allowed;
         }
 
-        .page-indicator {
+        .ciq-nav__indicator {
             font-size: 15px;
-            color: #888;
+            color: var(--text-medium);
             font-weight: 400;
         }
 
         /* Results Screen */
-        .results-container {
+        .ciq-results {
             display: none;
-            padding: 40px;
+            padding: var(--spacing-xlarge);
             text-align: center;
             height: 100%;
             overflow-y: auto;
             overflow-x: hidden;
         }
 
-        .results-container::-webkit-scrollbar {
-            width: 0;
-            display: none;
-        }
-
-        .results-container.active {
+        .ciq-results--active {
             display: block;
             animation: gentleFadeIn 1.2s ease;
         }
 
-        .results-container.tree-kahikatea {
+        /* Tree-specific backgrounds */
+        .ciq-results--tree-kahikatea {
             background: radial-gradient(ellipse at center, rgba(46, 134, 171, 0.2) 0%, transparent 60%);
         }
 
-        .results-container.tree-rimu {
+        .ciq-results--tree-rimu {
             background: radial-gradient(ellipse at center, rgba(76, 175, 80, 0.2) 0%, transparent 60%);
         }
 
-        .results-container.tree-matai {
+        .ciq-results--tree-matai {
             background: radial-gradient(ellipse at center, rgba(139, 195, 74, 0.2) 0%, transparent 60%);
         }
 
-        .results-container.tree-fern {
+        .ciq-results--tree-fern {
             background: radial-gradient(ellipse at center, rgba(52, 152, 219, 0.2) 0%, transparent 60%);
         }
 
-        .score-display {
+        /* Score Display */
+        .ciq-score-display {
             font-size: 120px;
             font-weight: 700;
-            color: #f1c40f;
+            color: var(--primary-color);
             margin: 20px 0;
             text-shadow: 0 0 30px rgba(241, 196, 15, 0.5);
             animation: gentle-glow 3s ease-in-out infinite;
@@ -296,464 +345,561 @@
             50% { opacity: 1; transform: scale(1.05); }
         }
 
-        .score-category {
+        .ciq-score-category {
             font-size: 28px;
-            color: #f1c40f;
+            color: var(--primary-color);
             margin-bottom: 40px;
             font-weight: 500;
             letter-spacing: 1px;
         }
 
-        .tree-card {
-            padding: 40px;
+        /* Tree Card */
+        .ciq-tree-card {
+            padding: var(--spacing-xlarge);
             max-width: 600px;
             margin: 0 auto;
             position: relative;
         }
 
-        .tree-name {
+        .ciq-tree-name {
             font-size: 56px;
-            margin-bottom: 25px;
+            margin-bottom: var(--spacing-large);
             font-weight: 700;
             letter-spacing: 2px;
         }
 
-        .tree-name.kahikatea {
+        .ciq-tree-name--kahikatea {
             color: #2e86ab;
             text-shadow: 0 0 30px rgba(46, 134, 171, 0.6);
         }
 
-        .tree-name.rimu {
-            color: #4CAF50;
+        .ciq-tree-name--rimu {
+            color: var(--success-color);
             text-shadow: 0 0 30px rgba(76, 175, 80, 0.6);
         }
 
-        .tree-name.matai {
+        .ciq-tree-name--matai {
             color: #8BC34A;
             text-shadow: 0 0 30px rgba(139, 195, 74, 0.6);
         }
 
-        .tree-name.fern {
+        .ciq-tree-name--fern {
             color: #3498db;
             text-shadow: 0 0 30px rgba(52, 152, 219, 0.6);
         }
 
-        .tree-description {
+        .ciq-tree-description {
             font-size: 20px;
             line-height: 1.8;
             font-weight: 400;
-            color: #e0e0e0;
+            color: var(--text-light);
             max-width: 500px;
             margin: 0 auto;
         }
 
-        .category-scores {
+        .ciq-tree-image {
+            width: 250px;
+            height: 250px;
+            margin: 30px auto;
+            display: block;
+            border-radius: var(--radius-large);
+            object-fit: contain;
+        }
+
+        /* Category Scores */
+        .ciq-category-scores {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-            gap: 25px;
+            gap: var(--spacing-large);
             margin-top: 50px;
             padding: 0 20px;
         }
 
-        .category-score {
-            background: rgba(255, 255, 255, 0.05);
-            padding: 25px;
-            border-radius: 20px;
-            transition: background 0.3s ease;
+        .ciq-category-score {
+            background: var(--bg-overlay-medium);
+            padding: var(--spacing-large);
+            border-radius: var(--radius-xlarge);
+            transition: var(--transition-default);
         }
 
-        .category-score:hover {
-            background: rgba(255, 255, 255, 0.08);
+        .ciq-category-score:hover {
+            background: var(--bg-overlay-heavy);
         }
 
-        .category-score h3 {
-            color: #f1c40f;
-            margin-bottom: 12px;
+        .ciq-category-score h3 {
+            color: var(--primary-color);
+            margin-bottom: var(--spacing-small);
             font-weight: 500;
             font-size: 16px;
             text-transform: uppercase;
             letter-spacing: 1.5px;
         }
 
-        .category-score-value {
+        .ciq-category-score-value {
             font-size: 32px;
             font-weight: 600;
-            color: #4CAF50;
+            color: var(--success-color);
         }
 
-        .tree-image {
-            width: 250px;
-            height: 250px;
-            margin: 30px auto;
-            display: block;
-            border-radius: 15px;
-            object-fit: contain;
-        }
-
+        /* Mobile Responsive */
         @media (max-width: 768px) {
-            .quiz-container {
+            .ciq-container {
                 width: 95%;
                 height: 95vh;
                 max-height: none;
-                border-radius: 20px;
+                border-radius: var(--radius-xlarge);
             }
 
-            .rating-options {
+            .ciq-rating {
                 flex-wrap: wrap;
             }
 
-            .rating-option {
+            .ciq-rating__option {
                 min-width: 45%;
             }
 
-            .quiz-header h1 {
+            .ciq-header__title {
                 font-size: 26px;
             }
 
-            .results-main {
-                flex-direction: column;
-                gap: 30px;
-            }
-
-            .info-section {
-                text-align: center;
-            }
-
-            .nav-button {
+            .ciq-nav__button {
                 padding: 12px 25px;
                 font-size: 15px;
+            }
+        }
+
+        /* Accessibility */
+        .ciq-rating__option:focus,
+        .ciq-nav__button:focus {
+            outline: 3px solid var(--primary-color);
+            outline-offset: 2px;
+        }
+
+        /* Reduced Motion Support */
+        @media (prefers-reduced-motion: reduce) {
+            *,
+            *::before,
+            *::after {
+                animation-duration: 0.01ms !important;
+                animation-iteration-count: 1 !important;
+                transition-duration: 0.01ms !important;
             }
         }
     </style>
 </head>
 <body>
-    <div class="quiz-container">
-        <div class="progress-bar">
-            <div class="progress-fill" id="progressFill"></div>
+    <div class="ciq-container">
+        <!-- Progress Bar -->
+        <div class="ciq-progress" role="progressbar" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0">
+            <div class="ciq-progress__fill" id="progressFill"></div>
         </div>
 
-        <div class="quiz-header">
-            <h1>Cultural Intelligence Self-Assessment</h1>
+
+
+        <!-- Main Content -->
+        <div class="ciq-content" id="quizContent">
+            <div class="ciq-scale-hint" role="note">
+                1 = Strongly Disagree &nbsp;&nbsp;|&nbsp;&nbsp; 2 = Disagree &nbsp;&nbsp;|&nbsp;&nbsp; 3 = Neutral &nbsp;&nbsp;|&nbsp;&nbsp; 4 = Agree &nbsp;&nbsp;|&nbsp;&nbsp; 5 = Strongly Agree
+            </div>
+            <!-- Question groups will be inserted here -->
         </div>
 
-        <div class="quiz-content" id="quizContent">
-            <!-- Question Groups will be inserted here dynamically -->
-        </div>
-
-        <div class="quiz-navigation" id="quizNavigation">
-            <button class="nav-button prev-button" id="prevButton">Previous</button>
-            <span class="page-indicator" id="pageIndicator">Section 1 of 4</span>
-            <button class="nav-button next-button" id="nextButton">Next</button>
+        <!-- Navigation -->
+        <div class="ciq-nav" id="quizNavigation">
+            <button class="ciq-nav__button ciq-nav__button--prev" id="prevButton" aria-label="Previous section">
+                Previous
+            </button>
+            <span class="ciq-nav__indicator" id="pageIndicator" aria-live="polite">Section 1 of 4</span>
+            <button class="ciq-nav__button ciq-nav__button--next" id="nextButton" aria-label="Next section">
+                Next
+            </button>
         </div>
 
         <!-- Results Container -->
-        <div class="results-container" id="resultsContainer">
-            <div class="results-main">
-                <div class="tree-section">
-                    <img class="tree-image" id="treeImage" src="" alt="">
+        <div class="ciq-results" id="resultsContainer" aria-label="Assessment results">
+            <div class="ciq-results-main">
+                <div class="ciq-tree-section">
+                    <img class="ciq-tree-image" id="treeImage" src="" alt="">
                 </div>
-                <div class="info-section">
-                    <div class="tree-description" id="treeDescription"></div>
-                    <div class="cq-level" id="cqLevel"></div>
+                <div class="ciq-info-section">
+                    <div class="ciq-tree-description" id="treeDescription"></div>
+                    <div class="ciq-cq-level" id="cqLevel"></div>
                 </div>
             </div>
 
-            <div class="category-scores" id="categoryScores"></div>
+            <div class="ciq-category-scores" id="categoryScores"></div>
         </div>
     </div>
 
     <script>
-        // Questions data
-        var questions = [
-            { id: 1, category: "CQ Drive", text: "I enjoy interacting with people from different cultural backgrounds." },
-            { id: 2, category: "CQ Drive", text: "I am confident I can adapt when cross-cultural situations become difficult." },
-            { id: 3, category: "CQ Drive", text: "I actively seek opportunities to work with people from different cultures." },
-            { id: 4, category: "CQ Drive", text: "I find cross-cultural situations energising rather than draining." },
-            { id: 5, category: "CQ Drive", text: "I believe that experiencing different cultures makes me a better professional." },
-            { id: 6, category: "CQ Knowledge", text: "I understand how cultural values affect business practices." },
-            { id: 7, category: "CQ Knowledge", text: "I know the cultural history and traditions of several cultures." },
-            { id: 8, category: "CQ Knowledge", text: "I understand how culture shapes thinking and behaviour." },
-            { id: 9, category: "CQ Knowledge", text: "I can identify when cultural differences are affecting a business situation." },
-            { id: 10, category: "CQ Knowledge", text: "I know how to research and learn about unfamiliar cultures." },
-            { id: 11, category: "CQ Strategy", text: "I plan my approach before cross-cultural interactions." },
-            { id: 12, category: "CQ Strategy", text: "I monitor my behaviour during cross-cultural encounters." },
-            { id: 13, category: "CQ Strategy", text: "I adjust my understanding when I receive new cultural information." },
-            { id: 14, category: "CQ Strategy", text: "I check whether my cross-cultural interactions are going well." },
-            { id: 15, category: "CQ Strategy", text: "I revise my assumptions about culture based on new experiences." },
-            { id: 16, category: "CQ Action", text: "I can modify my communication style when needed." },
-            { id: 17, category: "CQ Action", text: "I adapt my non-verbal behaviour to different cultural contexts." },
-            { id: 18, category: "CQ Action", text: "I can change my approach when cross-cultural situations require it." },
-            { id: 19, category: "CQ Action", text: "I adjust my leadership style based on cultural context." },
-            { id: 20, category: "CQ Action", text: "I can negotiate effectively across cultural differences." }
-        ];
+        // Encapsulate in IIFE to avoid global scope pollution
+        (function() {
+            'use strict';
 
-        var questionsPerPage = 5;
-        var currentGroup = 0;
-        var answers = {};
-
-        function init() {
-            renderQuestionGroups();
-            showGroup(0);
-            updateProgress();
-            setupEventListeners();
-        }
-
-        function renderQuestionGroups() {
-            var quizContent = document.getElementById('quizContent');
-            
-            // Keep the rating scale hint
-            var existingHint = quizContent.querySelector('.rating-scale-hint');
-            quizContent.innerHTML = '';
-            
-            // Re-add the rating scale hint
-            var hint = document.createElement('div');
-            hint.className = 'rating-scale-hint';
-            hint.innerHTML = '1 = Strongly Disagree &nbsp;&nbsp;|&nbsp;&nbsp; 2 = Disagree &nbsp;&nbsp;|&nbsp;&nbsp; 3 = Neutral &nbsp;&nbsp;|&nbsp;&nbsp; 4 = Agree &nbsp;&nbsp;|&nbsp;&nbsp; 5 = Strongly Agree';
-            quizContent.appendChild(hint);
-
-            for (var i = 0; i < questions.length; i += questionsPerPage) {
-                var group = document.createElement('div');
-                group.className = 'question-group';
-                group.id = 'group-' + Math.floor(i / questionsPerPage);
-
-                var groupQuestions = questions.slice(i, i + questionsPerPage);
-                
-                for (var j = 0; j < groupQuestions.length; j++) {
-                    var q = groupQuestions[j];
-                    var questionDiv = document.createElement('div');
-                    questionDiv.className = 'question';
-                    
-                    var questionText = document.createElement('div');
-                    questionText.className = 'question-text';
-                    questionText.textContent = q.id + '. ' + q.text;
-                    
-                    var ratingOptions = document.createElement('div');
-                    ratingOptions.className = 'rating-options';
-                    
-                    for (var rating = 1; rating <= 5; rating++) {
-                        var ratingOption = document.createElement('div');
-                        ratingOption.className = 'rating-option';
-                        ratingOption.setAttribute('data-question', q.id);
-                        ratingOption.setAttribute('data-rating', rating);
-                        ratingOption.id = 'q' + q.id + '-r' + rating;
-                        ratingOption.textContent = rating;
-                        ratingOptions.appendChild(ratingOption);
-                    }
-                    
-                    questionDiv.appendChild(questionText);
-                    questionDiv.appendChild(ratingOptions);
-                    group.appendChild(questionDiv);
-                }
-
-                quizContent.appendChild(group);
-            }
-        }
-
-        function showGroup(groupIndex) {
-            currentGroup = groupIndex;
-            
-            var groups = document.querySelectorAll('.question-group');
-            for (var i = 0; i < groups.length; i++) {
-                groups[i].classList.remove('active');
-            }
-
-            var targetGroup = document.getElementById('group-' + groupIndex);
-            if (targetGroup) {
-                targetGroup.classList.add('active');
-            }
-
-            // Scroll to top of quiz content
-            document.getElementById('quizContent').scrollTop = 0;
-
-            updateNavigation();
-            restoreSelections();
-        }
-
-        function selectRating(questionId, rating) {
-            answers[questionId] = rating;
-
-            for (var i = 1; i <= 5; i++) {
-                var elem = document.getElementById('q' + questionId + '-r' + i);
-                if (elem) elem.classList.remove('selected');
-            }
-
-            document.getElementById('q' + questionId + '-r' + rating).classList.add('selected');
-            updateNavigation();
-            updateProgress();
-        }
-
-        function updateNavigation() {
-            var totalGroups = Math.ceil(questions.length / questionsPerPage);
-            var prevButton = document.getElementById('prevButton');
-            var nextButton = document.getElementById('nextButton');
-            var pageIndicator = document.getElementById('pageIndicator');
-
-            prevButton.disabled = currentGroup === 0;
-            
-            var startIdx = currentGroup * questionsPerPage;
-            var endIdx = Math.min(startIdx + questionsPerPage, questions.length);
-            var allAnswered = true;
-            
-            for (var i = startIdx; i < endIdx; i++) {
-                if (!answers[questions[i].id]) {
-                    allAnswered = false;
-                    break;
-                }
-            }
-
-            if (currentGroup === totalGroups - 1) {
-                nextButton.textContent = 'Submit';
-                nextButton.className = 'nav-button submit-button';
-                nextButton.disabled = !allAnswered;
-            } else {
-                nextButton.textContent = 'Next';
-                nextButton.className = 'nav-button next-button';
-                nextButton.disabled = !allAnswered;
-            }
-
-            pageIndicator.textContent = 'Section ' + (currentGroup + 1) + ' of ' + totalGroups;
-        }
-
-        function updateProgress() {
-            var answeredCount = Object.keys(answers).length;
-            var progress = (answeredCount / questions.length) * 100;
-            document.getElementById('progressFill').style.width = progress + '%';
-        }
-
-        function restoreSelections() {
-            for (var qId in answers) {
-                var rating = answers[qId];
-                var elem = document.getElementById('q' + qId + '-r' + rating);
-                if (elem) elem.classList.add('selected');
-            }
-        }
-
-        function calculateScores() {
-            var totalScore = 0;
-            var categoryScores = {
-                "CQ Drive": 0,
-                "CQ Knowledge": 0,
-                "CQ Strategy": 0,
-                "CQ Action": 0
+            // Configuration
+            const CONFIG = {
+                questionsPerPage: 5,
+                categories: ['CQ Drive', 'CQ Knowledge', 'CQ Strategy', 'CQ Action'],
+                maxScore: 100,
+                categoryMaxScore: 25
             };
 
-            for (var i = 0; i < questions.length; i++) {
-                var q = questions[i];
-                var score = answers[q.id] || 0;
-                totalScore += score;
-                categoryScores[q.category] += score;
+            // State management
+            const state = {
+                currentGroup: 0,
+                answers: {},
+                questions: [
+                    { id: 1, category: "CQ Drive", text: "I enjoy interacting with people from different cultural backgrounds." },
+                    { id: 2, category: "CQ Drive", text: "I am confident I can adapt when cross-cultural situations become difficult." },
+                    { id: 3, category: "CQ Drive", text: "I actively seek opportunities to work with people from different cultures." },
+                    { id: 4, category: "CQ Drive", text: "I find cross-cultural situations energising rather than draining." },
+                    { id: 5, category: "CQ Drive", text: "I believe that experiencing different cultures makes me a better professional." },
+                    { id: 6, category: "CQ Knowledge", text: "I understand how cultural values affect business practices." },
+                    { id: 7, category: "CQ Knowledge", text: "I know the cultural history and traditions of several cultures." },
+                    { id: 8, category: "CQ Knowledge", text: "I understand how culture shapes thinking and behaviour." },
+                    { id: 9, category: "CQ Knowledge", text: "I can identify when cultural differences are affecting a business situation." },
+                    { id: 10, category: "CQ Knowledge", text: "I know how to research and learn about unfamiliar cultures." },
+                    { id: 11, category: "CQ Strategy", text: "I plan my approach before cross-cultural interactions." },
+                    { id: 12, category: "CQ Strategy", text: "I monitor my behaviour during cross-cultural encounters." },
+                    { id: 13, category: "CQ Strategy", text: "I adjust my understanding when I receive new cultural information." },
+                    { id: 14, category: "CQ Strategy", text: "I check whether my cross-cultural interactions are going well." },
+                    { id: 15, category: "CQ Strategy", text: "I revise my assumptions about culture based on new experiences." },
+                    { id: 16, category: "CQ Action", text: "I can modify my communication style when needed." },
+                    { id: 17, category: "CQ Action", text: "I adapt my non-verbal behaviour to different cultural contexts." },
+                    { id: 18, category: "CQ Action", text: "I can change my approach when cross-cultural situations require it." },
+                    { id: 19, category: "CQ Action", text: "I adjust my leadership style based on cultural context." },
+                    { id: 20, category: "CQ Action", text: "I can negotiate effectively across cultural differences." }
+                ]
+            };
+
+            // DOM Elements
+            const elements = {
+                progressFill: null,
+                quizContent: null,
+                prevButton: null,
+                nextButton: null,
+                pageIndicator: null,
+                resultsContainer: null,
+                treeImage: null,
+                treeDescription: null,
+                cqLevel: null,
+                categoryScores: null
+            };
+
+            // Initialize DOM elements
+            function initializeElements() {
+                elements.progressFill = document.getElementById('progressFill');
+                elements.quizContent = document.getElementById('quizContent');
+                elements.prevButton = document.getElementById('prevButton');
+                elements.nextButton = document.getElementById('nextButton');
+                elements.pageIndicator = document.getElementById('pageIndicator');
+                elements.resultsContainer = document.getElementById('resultsContainer');
+                elements.treeImage = document.getElementById('treeImage');
+                elements.treeDescription = document.getElementById('treeDescription');
+                elements.cqLevel = document.getElementById('cqLevel');
+                elements.categoryScores = document.getElementById('categoryScores');
             }
 
-            return { totalScore: totalScore, categoryScores: categoryScores };
-        }
-
-        function bandInfo(score) {
-            if (score >= 80) {
-                return {
-                    band: 'You have a high CQ',
-                    plant: 'kahikatea',
-                    displayName: 'Kahikatea',
-                    blurb: 'The Kahikatea tree is the tallest in the NZ Bush (up to 67m)',
-                    image: 'images/kahikatea.png'
-                };
-            } else if (score >= 60) {
-                return {
-                    band: 'You have a moderate CQ',
-                    plant: 'rimu',
-                    displayName: 'Rimu',
-                    blurb: 'The Rimu tree is a tall tree in the NZ Bush (up to 60m)',
-                    image: 'images/rimu.png'
-                };
-            } else if (score >= 40) {
-                return {
-                    band: 'You have a developing CQ',
-                    plant: 'matai',
-                    displayName: 'Matai',
-                    blurb: 'The Matai tree\'s height is mid-range in the NZ Bush (up to 30m)',
-                    image: 'images/matai.png'
-                };
-            } else {
-                return {
-                    band: 'You have a beginning CQ',
-                    plant: 'fern',
-                    displayName: 'Fern',
-                    blurb: 'A fern is one of the smallest plants in the NZ Bush (up to 1m)',
-                    image: 'images/fern.png'
-                };
-            }
-        }
-
-        function submitQuiz() {
-            var scores = calculateScores();
-            var treeData = bandInfo(scores.totalScore);
-
-            document.getElementById('quizContent').style.display = 'none';
-            document.getElementById('quizNavigation').style.display = 'none';
-            
-            var resultsContainer = document.getElementById('resultsContainer');
-            resultsContainer.classList.add('active');
-
-            var treeImage = document.getElementById('treeImage');
-            treeImage.src = treeData.image;
-            treeImage.alt = treeData.displayName + ' illustration';
-            
-            document.getElementById('treeDescription').textContent = treeData.blurb;
-            
-            var cqLevel = document.getElementById('cqLevel');
-            cqLevel.textContent = treeData.band;
-            cqLevel.className = 'cq-level ' + treeData.plant;
-
-            var categoryScoresDiv = document.getElementById('categoryScores');
-            categoryScoresDiv.innerHTML = '';
-            
-            for (var category in scores.categoryScores) {
-                var scoreDiv = document.createElement('div');
-                scoreDiv.className = 'category-score';
+            // Create question HTML
+            function createQuestionHTML(question) {
+                const questionDiv = document.createElement('div');
+                questionDiv.className = 'ciq-question';
                 
-                var heading = document.createElement('h3');
-                heading.textContent = category;
+                const questionText = document.createElement('div');
+                questionText.className = 'ciq-question__text';
+                questionText.textContent = `${question.id}. ${question.text}`;
                 
-                var scoreValue = document.createElement('div');
-                scoreValue.className = 'category-score-value';
-                scoreValue.textContent = scores.categoryScores[category] + '/25';
+                const ratingDiv = document.createElement('div');
+                ratingDiv.className = 'ciq-rating';
+                ratingDiv.setAttribute('role', 'radiogroup');
+                ratingDiv.setAttribute('aria-labelledby', `question-${question.id}`);
                 
-                scoreDiv.appendChild(heading);
-                scoreDiv.appendChild(scoreValue);
-                categoryScoresDiv.appendChild(scoreDiv);
-            }
-        }
-
-        function setupEventListeners() {
-            document.getElementById('prevButton').addEventListener('click', function() {
-                if (currentGroup > 0) {
-                    showGroup(currentGroup - 1);
+                for (let rating = 1; rating <= 5; rating++) {
+                    const option = document.createElement('button');
+                    option.className = 'ciq-rating__option';
+                    option.setAttribute('role', 'radio');
+                    option.setAttribute('aria-checked', 'false');
+                    option.setAttribute('data-question', question.id);
+                    option.setAttribute('data-rating', rating);
+                    option.id = `q${question.id}-r${rating}`;
+                    option.textContent = rating;
+                    option.addEventListener('click', handleRatingClick);
+                    ratingDiv.appendChild(option);
                 }
-            });
+                
+                questionDiv.appendChild(questionText);
+                questionDiv.appendChild(ratingDiv);
+                return questionDiv;
+            }
 
-            document.getElementById('nextButton').addEventListener('click', function() {
-                var totalGroups = Math.ceil(questions.length / questionsPerPage);
-                if (currentGroup === totalGroups - 1) {
+            // Render question groups
+            function renderQuestionGroups() {
+                const fragment = document.createDocumentFragment();
+                const totalGroups = Math.ceil(state.questions.length / CONFIG.questionsPerPage);
+                
+                for (let i = 0; i < totalGroups; i++) {
+                    const group = document.createElement('div');
+                    group.className = 'ciq-question-group';
+                    group.id = `group-${i}`;
+                    
+                    const startIdx = i * CONFIG.questionsPerPage;
+                    const endIdx = Math.min(startIdx + CONFIG.questionsPerPage, state.questions.length);
+                    
+                    for (let j = startIdx; j < endIdx; j++) {
+                        group.appendChild(createQuestionHTML(state.questions[j]));
+                    }
+                    
+                    fragment.appendChild(group);
+                }
+                
+                // Keep the scale hint
+                const scaleHint = elements.quizContent.querySelector('.ciq-scale-hint');
+                elements.quizContent.appendChild(scaleHint);
+                elements.quizContent.appendChild(fragment);
+            }
+
+            // Handle rating selection
+            function handleRatingClick(event) {
+                const button = event.currentTarget;
+                const questionId = parseInt(button.dataset.question);
+                const rating = parseInt(button.dataset.rating);
+                
+                selectRating(questionId, rating);
+            }
+
+            // Select rating
+            function selectRating(questionId, rating) {
+                state.answers[questionId] = rating;
+                
+                // Update UI
+                const options = document.querySelectorAll(`[data-question="${questionId}"]`);
+                options.forEach(option => {
+                    const isSelected = parseInt(option.dataset.rating) === rating;
+                    option.classList.toggle('ciq-rating__option--selected', isSelected);
+                    option.setAttribute('aria-checked', isSelected);
+                });
+                
+                updateNavigation();
+                updateProgress();
+            }
+
+            // Show specific group
+            function showGroup(groupIndex) {
+                state.currentGroup = groupIndex;
+                
+                document.querySelectorAll('.ciq-question-group').forEach(group => {
+                    group.classList.remove('ciq-question-group--active');
+                });
+                
+                const targetGroup = document.getElementById(`group-${groupIndex}`);
+                if (targetGroup) {
+                    targetGroup.classList.add('ciq-question-group--active');
+                }
+                
+                elements.quizContent.scrollTop = 0;
+                updateNavigation();
+                restoreSelections();
+            }
+
+            // Restore previously selected options
+            function restoreSelections() {
+                Object.entries(state.answers).forEach(([questionId, rating]) => {
+                    const option = document.getElementById(`q${questionId}-r${rating}`);
+                    if (option) {
+                        option.classList.add('ciq-rating__option--selected');
+                        option.setAttribute('aria-checked', 'true');
+                    }
+                });
+            }
+
+            // Update navigation state
+            function updateNavigation() {
+                const totalGroups = Math.ceil(state.questions.length / CONFIG.questionsPerPage);
+                const isFirstGroup = state.currentGroup === 0;
+                const isLastGroup = state.currentGroup === totalGroups - 1;
+                
+                elements.prevButton.disabled = isFirstGroup;
+                
+                const startIdx = state.currentGroup * CONFIG.questionsPerPage;
+                const endIdx = Math.min(startIdx + CONFIG.questionsPerPage, state.questions.length);
+                const allAnswered = Array.from({ length: endIdx - startIdx }, (_, i) => 
+                    state.answers.hasOwnProperty(state.questions[startIdx + i].id)
+                ).every(Boolean);
+                
+                if (isLastGroup) {
+                    elements.nextButton.textContent = 'Submit';
+                    elements.nextButton.className = 'ciq-nav__button ciq-nav__button--submit';
+                } else {
+                    elements.nextButton.textContent = 'Next';
+                    elements.nextButton.className = 'ciq-nav__button ciq-nav__button--next';
+                }
+                
+                elements.nextButton.disabled = !allAnswered;
+                elements.pageIndicator.textContent = `Section ${state.currentGroup + 1} of ${totalGroups}`;
+            }
+
+            // Update progress bar
+            function updateProgress() {
+                const answeredCount = Object.keys(state.answers).length;
+                const progress = (answeredCount / state.questions.length) * 100;
+                elements.progressFill.style.width = `${progress}%`;
+                document.querySelector('.ciq-progress').setAttribute('aria-valuenow', Math.round(progress));
+            }
+
+            // Calculate scores
+            function calculateScores() {
+                const categoryScores = CONFIG.categories.reduce((acc, category) => {
+                    acc[category] = 0;
+                    return acc;
+                }, {});
+                
+                let totalScore = 0;
+                
+                state.questions.forEach(question => {
+                    const score = state.answers[question.id] || 0;
+                    totalScore += score;
+                    categoryScores[question.category] += score;
+                });
+                
+                return { totalScore, categoryScores };
+            }
+
+            // Get band information based on score
+            function getBandInfo(score) {
+                const bands = [
+                    {
+                        threshold: 80,
+                        band: 'You have a high CQ',
+                        plant: 'kahikatea',
+                        displayName: 'Kahikatea',
+                        blurb: 'The Kahikatea tree is the tallest in the NZ Bush (up to 67m)',
+                        image: 'images/kahikatea.png'
+                    },
+                    {
+                        threshold: 60,
+                        band: 'You have a moderate CQ',
+                        plant: 'rimu',
+                        displayName: 'Rimu',
+                        blurb: 'The Rimu tree is a tall tree in the NZ Bush (up to 60m)',
+                        image: 'images/rimu.png'
+                    },
+                    {
+                        threshold: 40,
+                        band: 'You have a developing CQ',
+                        plant: 'matai',
+                        displayName: 'Matai',
+                        blurb: 'The Matai tree\'s height is mid-range in the NZ Bush (up to 30m)',
+                        image: 'images/matai.png'
+                    },
+                    {
+                        threshold: 0,
+                        band: 'You have a beginning CQ',
+                        plant: 'fern',
+                        displayName: 'Fern',
+                        blurb: 'A fern is one of the smallest plants in the NZ Bush (up to 1m)',
+                        image: 'images/fern.png'
+                    }
+                ];
+                
+                return bands.find(band => score >= band.threshold);
+            }
+
+            // Submit quiz and show results
+            function submitQuiz() {
+                const scores = calculateScores();
+                const bandInfo = getBandInfo(scores.totalScore);
+                
+                // Hide quiz elements
+                elements.quizContent.style.display = 'none';
+                document.getElementById('quizNavigation').style.display = 'none';
+                
+                // Show results
+                elements.resultsContainer.classList.add('ciq-results--active');
+                elements.resultsContainer.classList.add(`ciq-results--tree-${bandInfo.plant}`);
+                
+                // Set tree image
+                elements.treeImage.src = bandInfo.image;
+                elements.treeImage.alt = `${bandInfo.displayName} illustration`;
+                
+                // Set descriptions
+                elements.treeDescription.textContent = bandInfo.blurb;
+                elements.cqLevel.textContent = bandInfo.band;
+                elements.cqLevel.className = `ciq-cq-level ciq-tree-name ciq-tree-name--${bandInfo.plant}`;
+                
+                // Create category scores
+                elements.categoryScores.innerHTML = '';
+                
+                Object.entries(scores.categoryScores).forEach(([category, score]) => {
+                    const scoreDiv = document.createElement('div');
+                    scoreDiv.className = 'ciq-category-score';
+                    
+                    const heading = document.createElement('h3');
+                    heading.textContent = category;
+                    
+                    const scoreValue = document.createElement('div');
+                    scoreValue.className = 'ciq-category-score-value';
+                    scoreValue.textContent = `${score}/${CONFIG.categoryMaxScore}`;
+                    
+                    scoreDiv.appendChild(heading);
+                    scoreDiv.appendChild(scoreValue);
+                    elements.categoryScores.appendChild(scoreDiv);
+                });
+                
+                // Trigger completion event for Rise
+                if (window.parent) {
+                    window.parent.postMessage({
+                        type: 'ciq-assessment-complete',
+                        score: scores.totalScore,
+                        categoryScores: scores.categoryScores,
+                        band: bandInfo.band
+                    }, '*');
+                }
+            }
+
+            // Navigation handlers
+            function handlePrevious() {
+                if (state.currentGroup > 0) {
+                    showGroup(state.currentGroup - 1);
+                }
+            }
+
+            function handleNext() {
+                const totalGroups = Math.ceil(state.questions.length / CONFIG.questionsPerPage);
+                if (state.currentGroup === totalGroups - 1) {
                     submitQuiz();
-                } else if (currentGroup < totalGroups - 1) {
-                    showGroup(currentGroup + 1);
+                } else {
+                    showGroup(state.currentGroup + 1);
                 }
-            });
+            }
 
-            document.addEventListener('click', function(e) {
-                if (e.target.classList.contains('rating-option')) {
-                    var questionId = parseInt(e.target.getAttribute('data-question'));
-                    var rating = parseInt(e.target.getAttribute('data-rating'));
-                    selectRating(questionId, rating);
-                }
-            });
-        }
+            // Initialize application
+            function init() {
+                initializeElements();
+                renderQuestionGroups();
+                showGroup(0);
+                updateProgress();
+                
+                // Add event listeners
+                elements.prevButton.addEventListener('click', handlePrevious);
+                elements.nextButton.addEventListener('click', handleNext);
+                
+                // Keyboard navigation
+                document.addEventListener('keydown', (e) => {
+                    if (e.key === 'ArrowLeft' && !elements.prevButton.disabled) {
+                        handlePrevious();
+                    } else if (e.key === 'ArrowRight' && !elements.nextButton.disabled) {
+                        handleNext();
+                    }
+                });
+            }
 
-        // Initialize when DOM is loaded
-        if (document.readyState === 'loading') {
-            document.addEventListener('DOMContentLoaded', init);
-        } else {
-            init();
-        }
+            // Start when DOM is ready
+            if (document.readyState === 'loading') {
+                document.addEventListener('DOMContentLoaded', init);
+            } else {
+                init();
+            }
+        })();
     </script>
 </body>
 </html>
