@@ -470,9 +470,33 @@
     </div>
 
     <script>
-        // Quiz Configuration
+        // ============================================
+        // QUIZ CONFIGURATION - EASILY CUSTOMIZABLE
+        // ============================================
+        
         const QUIZ_CONFIG = {
+            // Number of questions to show per page
             questionsPerPage: 5,
+            
+            // SCORING MODE - Choose how the quiz calculates results
+            // Options:
+            // - 'simple': Just adds up all ratings (default)
+            // - 'weighted': Multiplies each question by its weight
+            // - 'category': Results based on highest-scoring category
+            // - 'custom': Use your own scoring function
+            scoringMode: 'simple',
+            
+            // QUESTIONS ARRAY
+            // Each question must have:
+            // - id: unique identifier (required)
+            // - category: which category it belongs to (required)
+            // - text: the question text (required)
+            // - weight: importance multiplier for weighted scoring (optional, default: 1)
+            // - reverse: true if high ratings should count as low scores (optional, default: false)
+            //
+            // Examples:
+            // { id: 1, category: "Anxiety", text: "I feel calm", weight: 2, reverse: false }
+            // { id: 2, category: "Anxiety", text: "I feel nervous", weight: 1, reverse: true }
             questions: [
                 { id: 1, category: "CQ Drive", text: "I enjoy interacting with people from different cultural backgrounds." },
                 { id: 2, category: "CQ Drive", text: "I am confident I can adapt when cross-cultural situations become difficult." },
@@ -495,16 +519,24 @@
                 { id: 19, category: "CQ Action", text: "I adjust my leadership style based on cultural context." },
                 { id: 20, category: "CQ Action", text: "I can negotiate effectively across cultural differences." }
             ],
+            
+            // Categories - Define the categories used in your questions
             categories: ["CQ Drive", "CQ Knowledge", "CQ Strategy", "CQ Action"],
+            
+            // RESULTS CONFIGURATION
+            // Define different results based on score ranges
+            // The quiz automatically normalizes scores to 0-100 scale
             results: {
+                // FOR 'simple' AND 'weighted' SCORING MODES
+                // Shows results based on total score ranges
                 bands: [
                     {
-                        minScore: 80,
-                        maxScore: 100,
-                        title: "You have a high CQ",
-                        className: "kahikatea",
+                        minScore: 80,      // Minimum score for this result
+                        maxScore: 100,     // Maximum score for this result
+                        title: "You have a high CQ",  // Result title shown to user
+                        className: "kahikatea",        // CSS class for styling
                         description: "Kahikatea is Aotearoa's tallest tree – up to 65 m. Your high CQ towers above the canopy and offers a broad vista for intercultural work",
-                        image: "images/kahikatea.png"
+                        image: "images/kahikatea.png"  // Image path for this result
                     },
                     {
                         minScore: 60,
@@ -530,11 +562,117 @@
                         description: "The koru‑shaped fern frond symbolises fresh beginnings. Your CQ journey is just starting – nurture it and watch it unfurl.",
                         image: "images/fern.png"
                     }
+                ],
+                
+                // FOR 'category' SCORING MODE
+                // Shows results based on which category scored highest
+                // Example: Learning styles quiz, personality type quiz
+                categoryResults: [
+                    // Uncomment and modify if using category scoring
+                    // {
+                    //     category: "Visual",
+                    //     title: "Visual Learner",
+                    //     className: "visual",
+                    //     description: "You learn best through images and visual representations",
+                    //     image: "images/visual.png"
+                    // }
                 ]
-            }
+            },
+            
+            // FOR 'custom' SCORING MODE
+            // Write your own scoring logic
+            // Function receives: (answers, questions)
+            // Must return object with at least: { totalScore: number }
+            customScoringFunction: null
         };
 
-        // Quiz Engine
+        // ============================================
+        // HOW TO CREATE YOUR OWN QUIZ
+        // ============================================
+        
+        // 1. CHANGE THE QUESTIONS:
+        // Replace the questions array with your own questions
+        // Example:
+        // questions: [
+        //     { id: 1, category: "Math", text: "I enjoy solving math problems" },
+        //     { id: 2, category: "Science", text: "I like conducting experiments" }
+        // ]
+        
+        // 2. UPDATE CATEGORIES:
+        // Change the categories array to match your question categories
+        // Example:
+        // categories: ["Math", "Science", "English", "History"]
+        
+        // 3. CUSTOMIZE RESULTS:
+        // Modify the results bands to show different outcomes
+        // Example:
+        // bands: [
+        //     {
+        //         minScore: 80,
+        //         maxScore: 100,
+        //         title: "Expert Level",
+        //         className: "expert",
+        //         description: "You have mastered this subject!",
+        //         image: "images/expert.png"
+        //     }
+        // ]
+        
+        // 4. SCORING:
+        // The quiz uses a 1-5 rating scale (Strongly Disagree to Strongly Agree)
+        // Scores are automatically normalized to 0-100:
+        // - All 1s = 0 points
+        // - All 3s = 50 points  
+        // - All 5s = 100 points
+        
+        // 5. IMAGES:
+        // Place your result images in an "images" folder
+        // Update the image paths in the results configuration
+        
+        // 6. STYLING:
+        // Each result band's className is used for the background gradient
+        // The CSS class .quiz-results--theme-[className] can be styled
+
+        // ============================================
+        // ADVANCED SCORING OPTIONS
+        // ============================================
+        
+        // WEIGHTED SCORING EXAMPLE:
+        // scoringMode: 'weighted',
+        // questions: [
+        //     { id: 1, text: "Important question", weight: 2 },
+        //     { id: 2, text: "Less important", weight: 1 }
+        // ]
+        
+        // REVERSE SCORING EXAMPLE:
+        // questions: [
+        //     { id: 1, text: "I avoid challenges", reverse: true },
+        //     { id: 2, text: "I embrace challenges", reverse: false }
+        // ]
+        
+        // CATEGORY-BASED RESULTS EXAMPLE:
+        // scoringMode: 'category',
+        // results: {
+        //     categoryResults: [
+        //         {
+        //             category: "Visual",
+        //             title: "Visual Learner",
+        //             description: "You learn best through images",
+        //             image: "images/visual.png"
+        //         }
+        //     ]
+        // }
+        
+        // CUSTOM SCORING EXAMPLE:
+        // scoringMode: 'custom',
+        // customScoringFunction: (answers, questions) => {
+        //     let totalScore = 0;
+        //     // Custom logic here
+        //     return { totalScore: totalScore };
+        // }
+
+        // ============================================
+        // QUIZ ENGINE - NO NEED TO MODIFY
+        // ============================================
         class QuizEngine {
             constructor(config) {
                 this.config = config;
@@ -699,6 +837,21 @@
             }
 
             calculateScores() {
+                const scoringMode = this.config.scoringMode || 'simple';
+                
+                switch (scoringMode) {
+                    case 'weighted':
+                        return this.calculateWeightedScores();
+                    case 'category':
+                        return this.calculateCategoryScores();
+                    case 'custom':
+                        return this.calculateCustomScores();
+                    default:
+                        return this.calculateSimpleScores();
+                }
+            }
+            
+            calculateSimpleScores() {
                 const categoryScores = this.config.categories.reduce((acc, category) => {
                     acc[category] = 0;
                     return acc;
@@ -707,7 +860,13 @@
                 let totalScore = 0;
                 
                 this.config.questions.forEach(question => {
-                    const score = this.answers[question.id] || 0;
+                    let score = this.answers[question.id] || 0;
+                    
+                    // Handle reverse scoring
+                    if (question.reverse) {
+                        score = 6 - score; // For 1-5 scale: 5 becomes 1, 1 becomes 5
+                    }
+                    
                     totalScore += score;
                     categoryScores[question.category] += score;
                 });
@@ -720,14 +879,124 @@
                 return { 
                     totalScore: normalizedScore,
                     rawScore: totalScore,
-                    categoryScores 
+                    categoryScores,
+                    scoringMode: 'simple'
                 };
+            }
+            
+            calculateWeightedScores() {
+                const categoryScores = this.config.categories.reduce((acc, category) => {
+                    acc[category] = 0;
+                    return acc;
+                }, {});
+                
+                let totalScore = 0;
+                let totalWeight = 0;
+                
+                this.config.questions.forEach(question => {
+                    let score = this.answers[question.id] || 0;
+                    const weight = question.weight || 1;
+                    
+                    // Handle reverse scoring
+                    if (question.reverse) {
+                        score = 6 - score;
+                    }
+                    
+                    const weightedScore = score * weight;
+                    totalScore += weightedScore;
+                    totalWeight += weight;
+                    categoryScores[question.category] += weightedScore;
+                });
+                
+                // Normalize to 0-100 scale
+                const normalizedScore = Math.round((totalScore / (totalWeight * 5)) * 100);
+                
+                return { 
+                    totalScore: normalizedScore,
+                    rawScore: totalScore,
+                    categoryScores,
+                    scoringMode: 'weighted'
+                };
+            }
+            
+            calculateCategoryScores() {
+                const categoryScores = this.config.categories.reduce((acc, category) => {
+                    acc[category] = 0;
+                    return acc;
+                }, {});
+                
+                const categoryCounts = this.config.categories.reduce((acc, category) => {
+                    acc[category] = 0;
+                    return acc;
+                }, {});
+                
+                this.config.questions.forEach(question => {
+                    let score = this.answers[question.id] || 0;
+                    
+                    // Handle reverse scoring
+                    if (question.reverse) {
+                        score = 6 - score;
+                    }
+                    
+                    categoryScores[question.category] += score;
+                    categoryCounts[question.category]++;
+                });
+                
+                // Calculate average score per category
+                const categoryAverages = {};
+                Object.keys(categoryScores).forEach(category => {
+                    if (categoryCounts[category] > 0) {
+                        categoryAverages[category] = categoryScores[category] / categoryCounts[category];
+                    }
+                });
+                
+                // Find dominant category
+                const dominantCategory = Object.entries(categoryAverages)
+                    .sort((a, b) => b[1] - a[1])[0];
+                
+                return { 
+                    categoryScores,
+                    categoryAverages,
+                    dominantCategory: dominantCategory[0],
+                    dominantScore: dominantCategory[1],
+                    scoringMode: 'category'
+                };
+            }
+            
+            calculateCustomScores() {
+                if (this.config.customScoringFunction && typeof this.config.customScoringFunction === 'function') {
+                    return {
+                        ...this.config.customScoringFunction(this.answers, this.config.questions),
+                        scoringMode: 'custom'
+                    };
+                }
+                
+                // Fallback to simple scoring if no custom function provided
+                return this.calculateSimpleScores();
             }
 
             getResultBand(scores) {
-                return this.config.results.bands.find(band => 
-                    scores.totalScore >= band.minScore && scores.totalScore <= band.maxScore
-                );
+                const scoringMode = scores.scoringMode || 'simple';
+                
+                switch (scoringMode) {
+                    case 'category':
+                        // Find result based on dominant category
+                        if (this.config.results.categoryResults && this.config.results.categoryResults.length > 0) {
+                            return this.config.results.categoryResults.find(result => 
+                                result.category === scores.dominantCategory
+                            );
+                        }
+                        // Fallback to score bands if no category results defined
+                        return this.config.results.bands.find(band => 
+                            scores.totalScore >= band.minScore && scores.totalScore <= band.maxScore
+                        );
+                        
+                    default:
+                        // For simple, weighted, and custom scoring, use score bands
+                        return this.config.results.bands.find(band => 
+                            scores.totalScore >= band.minScore && scores.totalScore <= band.maxScore
+                        );
+                }
             }
 
             submitQuiz() {
