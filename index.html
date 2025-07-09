@@ -24,6 +24,31 @@
             color: #f0f0f0;
         }
 
+        /* Force scrollbar styling globally */
+        body::-webkit-scrollbar,
+        div::-webkit-scrollbar {
+            width: 16px !important;
+            height: 16px !important;
+        }
+
+        body::-webkit-scrollbar-track,
+        div::-webkit-scrollbar-track {
+            background: rgba(200, 200, 200, 0.3) !important;
+            border-radius: 8px !important;
+        }
+
+        body::-webkit-scrollbar-thumb,
+        div::-webkit-scrollbar-thumb {
+            background: rgba(255, 255, 255, 0.9) !important;
+            border-radius: 8px !important;
+            border: 2px solid rgba(0, 0, 0, 0.1) !important;
+        }
+
+        body::-webkit-scrollbar-thumb:hover,
+        div::-webkit-scrollbar-thumb:hover {
+            background: #ffffff !important;
+        }
+
         .quiz-container {
             background: #000000;
             border-radius: 30px;
