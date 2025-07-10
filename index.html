@@ -112,8 +112,22 @@
 
         /* Hide scrollbar for results */
         .quiz-results::-webkit-scrollbar {
-            width: 0;
-            display: none;
+            width: 10px;
+        }
+
+        .quiz-results::-webkit-scrollbar-track {
+            background: rgba(0, 0, 0, 0.1);
+            border-radius: 10px;
+        }
+
+        .quiz-results::-webkit-scrollbar-thumb {
+            background: rgba(0, 0, 0, 0.4);
+            border-radius: 10px;
+            border: 1px solid var(--bg-color);
+        }
+
+        .quiz-results::-webkit-scrollbar-thumb:hover {
+            background: rgba(0, 0, 0, 0.6);
         }
 
         /* Container Styles */
@@ -390,6 +404,14 @@
             font-size: 20px;
             font-weight: 500;
             margin-bottom: 24px;
+            cursor: pointer;
+            text-decoration: none;
+            display: inline-block;
+            width: 100%;
+        }
+
+        .quiz-thumbnails__title:hover {
+            color: var(--text-dark);
         }
 
         .quiz-thumbnails__grid {
@@ -405,7 +427,7 @@
             transition: var(--transition-default);
             border-radius: var(--radius-medium);
             overflow: hidden;
-            background: rgba(255, 255, 255, 0.6);
+            background: #000000;
             padding: 8px;
         }
 
@@ -543,7 +565,7 @@
             
             <!-- Thumbnails Section -->
             <div class="quiz-thumbnails" id="thumbnailsContainer">
-                <h3 class="quiz-thumbnails__title">Explore All Results</h3>
+                <a class="quiz-thumbnails__title" id="exploreThumbnails" href="#thumbnailsGrid">Explore All Results</a>
                 <div class="quiz-thumbnails__grid" id="thumbnailsGrid">
                     <!-- Thumbnails will be inserted here -->
                 </div>
@@ -634,7 +656,7 @@
                         title: "You have a developing CQ",
                         className: "matai",
                         description: "Mataī reaches respectable heights yet continues to build strength. Your CQ is developing – keep nourishing it with new experiences.",
-                        image: "images/mataī.png"
+                        image: "images/mataī.jpg"
                     },
                     {
                         minScore: 0,
@@ -784,7 +806,8 @@
                     resultsImage: document.getElementById('resultsImage'),
                     resultsDescription: document.getElementById('resultsDescription'),
                     quizLevel: document.getElementById('quizLevel'),
-                    thumbnailsGrid: document.getElementById('thumbnailsGrid')
+                    thumbnailsGrid: document.getElementById('thumbnailsGrid'),
+                    exploreThumbnails: document.getElementById('exploreThumbnails')
                 };
             }
 
@@ -1135,6 +1158,9 @@
                 // Create thumbnails
                 this.createThumbnails(resultBand);
                 
+                // Set up explore link
+                this.setupExploreLink();
+                
                 // Trigger completion event for Rise
                 if (window.parent) {
                     window.parent.postMessage({
@@ -1207,6 +1233,19 @@
                     
                     thumbnailsGrid.appendChild(thumbnail);
                 });
+            }
+            
+            setupExploreLink() {
+                if (this.elements.exploreThumbnails) {
+                    this.elements.exploreThumbnails.addEventListener('click', (e) => {
+                        e.preventDefault();
+                        // Scroll to bottom of results container
+                        this.elements.resultsContainer.scrollTo({
+                            top: this.elements.resultsContainer.scrollHeight,
+                            behavior: 'smooth'
+                        });
+                    });
+                }
             }
 
             handlePrevious() {
