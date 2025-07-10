@@ -396,14 +396,11 @@
         .quiz-thumbnails {
             flex: 0 0 auto;
             width: 100px;
-            background: rgba(0, 0, 0, 0.25);
-            border-radius: var(--radius-large);
-            padding: 16px 12px;
         }
 
         .quiz-thumbnails__title {
             text-align: center;
-            color: #ffffff;
+            color: var(--text-dark);
             font-size: 16px;
             font-weight: 500;
             margin-bottom: 16px;
@@ -414,7 +411,7 @@
         }
 
         .quiz-thumbnails__title:hover {
-            color: #ffffff;
+            color: var(--text-dark);
         }
 
         .quiz-thumbnails__grid {
@@ -431,17 +428,20 @@
             overflow: hidden;
             background: rgba(0, 0, 0, 0.05);
             padding: 6px;
+            opacity: 0.7;
         }
 
         .quiz-thumbnail:hover {
             transform: translateX(-4px);
             box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+            opacity: 1;
         }
 
         .quiz-thumbnail--active {
             outline: 3px solid var(--primary-color);
             outline-offset: 2px;
             background: rgba(241, 196, 15, 0.1);
+            opacity: 1;
         }
 
         .quiz-thumbnail__image {
@@ -581,6 +581,7 @@
                 </div>
                 <!-- Thumbnails Section - now in third column -->
                 <div class="quiz-thumbnails" id="thumbnailsContainer">
+                    <a class="quiz-thumbnails__title" id="exploreThumbnails" href="#thumbnailsGrid">All Results</a>
                     <div class="quiz-thumbnails__grid" id="thumbnailsGrid">
                         <!-- Thumbnails will be inserted here -->
                     </div>
