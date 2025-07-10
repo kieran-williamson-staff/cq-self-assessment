@@ -326,12 +326,12 @@
             animation: gentleFadeIn 1.2s ease;
         }
 
-        /* Results main layout - side by side */
+        /* Results main layout - three columns */
         .quiz-results-main {
             display: flex;
-            align-items: center;
+            align-items: flex-start;
             justify-content: center;
-            gap: 60px;
+            gap: 30px;
             flex: 1;
             padding: 20px;
         }
@@ -342,18 +342,18 @@
 
         .quiz-info-section {
             flex: 1;
-            max-width: 500px;
+            max-width: 400px;
         }
 
-        /* Results image - 80% of container height */
+        /* Results image - reduced by 15% */
         .quiz-results-image {
-            height: 400px;
-            max-height: 80%;
+            height: 340px;
+            max-height: 70%;
             width: auto;
             display: block;
             object-fit: contain;
             /* Prevent layout shift while loading */
-            min-height: 400px;
+            min-height: 340px;
             background: rgba(0, 0, 0, 0.05);
             border-radius: var(--radius-large);
         }
@@ -391,22 +391,21 @@
             background: radial-gradient(ellipse at center, rgba(52, 152, 219, 0.1) 0%, transparent 70%);
         }
 
-        /* Thumbnails Section */
+        /* Thumbnails Section - now a vertical column */
         .quiz-thumbnails {
-            margin-top: 40px;
-            padding-top: 40px;
-            border-top: 1px solid rgba(0, 0, 0, 0.1);
+            flex: 0 0 auto;
+            width: 120px;
         }
 
         .quiz-thumbnails__title {
             text-align: center;
             color: var(--text-dark);
-            font-size: 20px;
+            font-size: 16px;
             font-weight: 500;
-            margin-bottom: 24px;
+            margin-bottom: 16px;
             cursor: pointer;
             text-decoration: none;
-            display: inline-block;
+            display: block;
             width: 100%;
         }
 
@@ -416,9 +415,8 @@
 
         .quiz-thumbnails__grid {
             display: flex;
-            justify-content: center;
-            gap: 20px;
-            flex-wrap: wrap;
+            flex-direction: column;
+            gap: 12px;
         }
 
         .quiz-thumbnail {
@@ -428,12 +426,12 @@
             border-radius: var(--radius-medium);
             overflow: hidden;
             background: #000000;
-            padding: 8px;
+            padding: 6px;
         }
 
         .quiz-thumbnail:hover {
-            transform: translateY(-4px);
-            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.15);
+            transform: translateX(-4px);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
         }
 
         .quiz-thumbnail--active {
@@ -443,10 +441,11 @@
         }
 
         .quiz-thumbnail__image {
-            width: 100px;
-            height: 100px;
+            width: 80px;
+            height: 80px;
             object-fit: contain;
             display: block;
+            margin: 0 auto;
         }
 
         .quiz-thumbnail__label {
@@ -456,8 +455,8 @@
             right: 0;
             background: rgba(0, 0, 0, 0.8);
             color: white;
-            padding: 4px 8px;
-            font-size: 12px;
+            padding: 2px 4px;
+            font-size: 10px;
             text-align: center;
             font-weight: 500;
         }
@@ -489,20 +488,35 @@
                 font-size: 15px;
             }
 
-            /* Stack results vertically on mobile */
+            /* Stack results for mobile */
             .quiz-results-main {
                 flex-direction: column;
-                gap: 30px;
+                gap: 20px;
             }
 
             .quiz-results-image {
-                height: 300px;
+                height: 250px;
                 max-height: 80%;
-                min-height: 300px;
+                min-height: 250px;
             }
 
             .quiz-info-section {
                 text-align: center;
+                max-width: 100%;
+            }
+
+            /* Thumbnails go horizontal on mobile */
+            .quiz-thumbnails {
+                width: 100%;
+                margin-top: 20px;
+                padding-top: 20px;
+                border-top: 1px solid rgba(0, 0, 0, 0.1);
+            }
+
+            .quiz-thumbnails__grid {
+                flex-direction: row;
+                justify-content: center;
+                flex-wrap: wrap;
             }
         }
 
@@ -561,13 +575,12 @@
                     <div class="quiz-level" id="quizLevel"></div>
                     <div class="quiz-results-description" id="resultsDescription"></div>
                 </div>
-            </div>
-            
-            <!-- Thumbnails Section -->
-            <div class="quiz-thumbnails" id="thumbnailsContainer">
-                <a class="quiz-thumbnails__title" id="exploreThumbnails" href="#thumbnailsGrid">Explore All Results</a>
-                <div class="quiz-thumbnails__grid" id="thumbnailsGrid">
-                    <!-- Thumbnails will be inserted here -->
+                <!-- Thumbnails Section - now in third column -->
+                <div class="quiz-thumbnails" id="thumbnailsContainer">
+                    <a class="quiz-thumbnails__title" id="exploreThumbnails" href="#thumbnailsGrid">All Results</a>
+                    <div class="quiz-thumbnails__grid" id="thumbnailsGrid">
+                        <!-- Thumbnails will be inserted here -->
+                    </div>
                 </div>
             </div>
         </div>
@@ -1158,9 +1171,6 @@
                 // Create thumbnails
                 this.createThumbnails(resultBand);
                 
-                // Set up explore link
-                this.setupExploreLink();
-                
                 // Trigger completion event for Rise
                 if (window.parent) {
                     window.parent.postMessage({
@@ -1231,19 +1241,6 @@
                     
                     thumbnailsGrid.appendChild(thumbnail);
                 });
-            }
-            
-            setupExploreLink() {
-                if (this.elements.exploreThumbnails) {
-                    this.elements.exploreThumbnails.addEventListener('click', (e) => {
-                        e.preventDefault();
-                        // Scroll to bottom of results container
-                        this.elements.resultsContainer.scrollTo({
-                            top: this.elements.resultsContainer.scrollHeight,
-                            behavior: 'smooth'
-                        });
-                    });
-                }
             }
 
             handlePrevious() {
