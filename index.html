@@ -154,11 +154,12 @@
         }
 
         .quiz-scale-hint {
-            text-align: left;
-            color: var(--text-dim);
-            font-size: 14px;
+            text-align: center;
+            color: #6a6a6a;
+            font-size: 16px;
             margin-bottom: 35px;
             line-height: 1.6;
+            font-weight: 400;
         }
 
         /* Question Groups */
@@ -376,6 +377,74 @@
             background: radial-gradient(ellipse at center, rgba(52, 152, 219, 0.1) 0%, transparent 70%);
         }
 
+        /* Thumbnails Section */
+        .quiz-thumbnails {
+            margin-top: 40px;
+            padding-top: 40px;
+            border-top: 1px solid rgba(0, 0, 0, 0.1);
+        }
+
+        .quiz-thumbnails__title {
+            text-align: center;
+            color: var(--text-dark);
+            font-size: 20px;
+            font-weight: 500;
+            margin-bottom: 24px;
+        }
+
+        .quiz-thumbnails__grid {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            flex-wrap: wrap;
+        }
+
+        .quiz-thumbnail {
+            position: relative;
+            cursor: pointer;
+            transition: var(--transition-default);
+            border-radius: var(--radius-medium);
+            overflow: hidden;
+            background: rgba(255, 255, 255, 0.6);
+            padding: 8px;
+        }
+
+        .quiz-thumbnail:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.15);
+        }
+
+        .quiz-thumbnail--active {
+            outline: 3px solid var(--primary-color);
+            outline-offset: 2px;
+            background: rgba(241, 196, 15, 0.1);
+        }
+
+        .quiz-thumbnail__image {
+            width: 100px;
+            height: 100px;
+            object-fit: contain;
+            display: block;
+        }
+
+        .quiz-thumbnail__label {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: rgba(0, 0, 0, 0.8);
+            color: white;
+            padding: 4px 8px;
+            font-size: 12px;
+            text-align: center;
+            font-weight: 500;
+        }
+
+        .quiz-thumbnail--active .quiz-thumbnail__label {
+            background: var(--primary-color);
+            color: var(--text-dark);
+        }
+
         /* Mobile Responsive */
         @media (max-width: 768px) {
             .quiz-container {
@@ -471,6 +540,14 @@
                     <div class="quiz-results-description" id="resultsDescription"></div>
                 </div>
             </div>
+            
+            <!-- Thumbnails Section -->
+            <div class="quiz-thumbnails" id="thumbnailsContainer">
+                <h3 class="quiz-thumbnails__title">Explore All Results</h3>
+                <div class="quiz-thumbnails__grid" id="thumbnailsGrid">
+                    <!-- Thumbnails will be inserted here -->
+                </div>
+            </div>
         </div>
     </div>
 
@@ -557,7 +634,7 @@
                         title: "You have a developing CQ",
                         className: "matai",
                         description: "Mataī reaches respectable heights yet continues to build strength. Your CQ is developing – keep nourishing it with new experiences.",
-                        image: "images/mataī.png"
+                        image: "images/mataī.jpg"
                     },
                     {
                         minScore: 0,
@@ -706,7 +783,8 @@
                     resultsContainer: document.getElementById('resultsContainer'),
                     resultsImage: document.getElementById('resultsImage'),
                     resultsDescription: document.getElementById('resultsDescription'),
-                    quizLevel: document.getElementById('quizLevel')
+                    quizLevel: document.getElementById('quizLevel'),
+                    thumbnailsGrid: document.getElementById('thumbnailsGrid')
                 };
             }
 
@@ -1052,6 +1130,22 @@
                 this.elements.resultsContainer.classList.add(`quiz-results--theme-${resultBand.className}`);
                 
                 // Set result content
+                this.displayResult(resultBand);
+                
+                // Create thumbnails
+                this.createThumbnails(resultBand);
+                
+                // Trigger completion event for Rise
+                if (window.parent) {
+                    window.parent.postMessage({
+                        type: 'quiz-complete',
+                        scores: scores,
+                        result: resultBand.title
+                    }, '*');
+                }
+            }
+            
+            displayResult(resultBand) {
                 this.elements.resultsImage.src = resultBand.image;
                 this.elements.resultsImage.alt = `${resultBand.className} illustration`;
                 this.elements.resultsDescription.textContent = resultBand.description;
@@ -1063,14 +1157,56 @@
                     this.elements.resultsImage.style.display = 'none';
                 };
                 
-                // Trigger completion event for Rise
-                if (window.parent) {
-                    window.parent.postMessage({
-                        type: 'quiz-complete',
-                        scores: scores,
-                        result: resultBand.title
-                    }, '*');
-                }
+                // Update theme class
+                const container = this.elements.resultsContainer;
+                // Remove any existing theme classes
+                container.className = container.className.replace(/quiz-results--theme-\w+/g, '');
+                container.classList.add('quiz-results--active');
+                container.classList.add(`quiz-results--theme-${resultBand.className}`);
+            }
+            
+            createThumbnails(currentResult) {
+                const thumbnailsGrid = this.elements.thumbnailsGrid;
+                thumbnailsGrid.innerHTML = '';
+                
+                // Get all possible results
+                const allResults = this.config.results.bands || [];
+                
+                allResults.forEach(result => {
+                    const thumbnail = document.createElement('div');
+                    thumbnail.className = 'quiz-thumbnail';
+                    
+                    // Highlight the current result
+                    if (result.className === currentResult.className) {
+                        thumbnail.classList.add('quiz-thumbnail--active');
+                    }
+                    
+                    const img = document.createElement('img');
+                    img.className = 'quiz-thumbnail__image';
+                    img.src = result.image;
+                    img.alt = `${result.title} thumbnail`;
+                    
+                    const label = document.createElement('div');
+                    label.className = 'quiz-thumbnail__label';
+                    label.textContent = result.title.replace('You have a ', '').replace('You have ', '');
+                    
+                    thumbnail.appendChild(img);
+                    thumbnail.appendChild(label);
+                    
+                    // Add click handler
+                    thumbnail.addEventListener('click', () => {
+                        // Remove active class from all thumbnails
+                        thumbnailsGrid.querySelectorAll('.quiz-thumbnail').forEach(t => {
+                            t.classList.remove('quiz-thumbnail--active');
+                        });
+                        // Add active class to clicked thumbnail
+                        thumbnail.classList.add('quiz-thumbnail--active');
+                        // Display the selected result
+                        this.displayResult(result);
+                    });
+                    
+                    thumbnailsGrid.appendChild(thumbnail);
+                });
             }
 
             handlePrevious() {
