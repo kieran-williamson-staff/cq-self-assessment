@@ -634,7 +634,7 @@
                         title: "You have a developing CQ",
                         className: "matai",
                         description: "Mataī reaches respectable heights yet continues to build strength. Your CQ is developing – keep nourishing it with new experiences.",
-                        image: "images/mataī.jpg"
+                        image: "images/mataī.png"
                     },
                     {
                         minScore: 0,
@@ -1154,7 +1154,7 @@
                 // Add error handling for image
                 this.elements.resultsImage.onerror = () => {
                     console.error('Failed to load image:', resultBand.image);
-                    this.elements.resultsImage.style.display = 'none';
+                    // Don't hide the image, just log the error
                 };
                 
                 // Update theme class
