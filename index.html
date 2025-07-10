@@ -314,7 +314,7 @@
         /* Results Screen */
         .quiz-results {
             display: none;
-            padding: var(--spacing-xlarge);
+            padding: var(--spacing-xlarge) 0 var(--spacing-xlarge) var(--spacing-xlarge);
             height: 100%;
             overflow-y: auto;
             overflow-x: hidden;
@@ -329,11 +329,11 @@
         /* Results main layout - three columns */
         .quiz-results-main {
             display: flex;
-            align-items: flex-start;
-            justify-content: center;
-            gap: 30px;
+            align-items: center;
+            justify-content: space-between;
+            gap: 25px;
             flex: 1;
-            padding: 20px;
+            padding: 20px 20px 20px 15px;
         }
 
         .quiz-results-image-section {
@@ -343,6 +343,7 @@
         .quiz-info-section {
             flex: 1;
             max-width: 400px;
+            padding: 0 10px;
         }
 
         /* Results image - reduced by 15% */
