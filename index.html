@@ -656,7 +656,7 @@
                         title: "You have a developing CQ",
                         className: "matai",
                         description: "Mataī reaches respectable heights yet continues to build strength. Your CQ is developing – keep nourishing it with new experiences.",
-                        image: "images/mataī.jpg"
+                        image: "images/matai.png"
                     },
                     {
                         minScore: 0,
@@ -1195,6 +1195,9 @@
                 const thumbnailsGrid = this.elements.thumbnailsGrid;
                 thumbnailsGrid.innerHTML = '';
                 
+                // Store the user's actual result
+                this.userResult = currentResult;
+                
                 // Get all possible results
                 const allResults = this.config.results.bands || [];
                 
@@ -1202,8 +1205,8 @@
                     const thumbnail = document.createElement('div');
                     thumbnail.className = 'quiz-thumbnail';
                     
-                    // Highlight the current result
-                    if (result.className === currentResult.className) {
+                    // Highlight the user's actual result (not the clicked one)
+                    if (result.className === this.userResult.className) {
                         thumbnail.classList.add('quiz-thumbnail--active');
                     }
                     
@@ -1221,13 +1224,8 @@
                     
                     // Add click handler
                     thumbnail.addEventListener('click', () => {
-                        // Remove active class from all thumbnails
-                        thumbnailsGrid.querySelectorAll('.quiz-thumbnail').forEach(t => {
-                            t.classList.remove('quiz-thumbnail--active');
-                        });
-                        // Add active class to clicked thumbnail
-                        thumbnail.classList.add('quiz-thumbnail--active');
-                        // Display the selected result
+                        // Don't change the active state - keep it on user's result
+                        // Just display the selected result
                         this.displayResult(result);
                     });
                     
