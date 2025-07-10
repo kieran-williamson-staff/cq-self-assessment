@@ -337,6 +337,10 @@
             width: auto;
             display: block;
             object-fit: contain;
+            /* Prevent layout shift while loading */
+            min-height: 400px;
+            background: rgba(0, 0, 0, 0.05);
+            border-radius: var(--radius-large);
         }
 
         /* Quiz Level - normal styling */
@@ -403,6 +407,7 @@
             .quiz-results-image {
                 height: 300px;
                 max-height: 80%;
+                min-height: 300px;
             }
 
             .quiz-info-section {
@@ -684,6 +689,7 @@
 
             init() {
                 this.initializeElements();
+                this.preloadImages();
                 this.renderQuestionGroups();
                 this.showGroup(0);
                 this.updateProgress();
@@ -702,6 +708,35 @@
                     resultsDescription: document.getElementById('resultsDescription'),
                     quizLevel: document.getElementById('quizLevel')
                 };
+            }
+
+            preloadImages() {
+                // Preload all result images to prevent layout shift
+                const imageUrls = [];
+                
+                // Get images from score bands
+                if (this.config.results.bands) {
+                    this.config.results.bands.forEach(band => {
+                        if (band.image) {
+                            imageUrls.push(band.image);
+                        }
+                    });
+                }
+                
+                // Get images from category results if they exist
+                if (this.config.results.categoryResults) {
+                    this.config.results.categoryResults.forEach(result => {
+                        if (result.image) {
+                            imageUrls.push(result.image);
+                        }
+                    });
+                }
+                
+                // Preload each image
+                imageUrls.forEach(url => {
+                    const img = new Image();
+                    img.src = url;
+                });
             }
 
             createQuestionHTML(question) {
