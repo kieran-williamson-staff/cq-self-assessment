@@ -473,6 +473,40 @@
             color: var(--text-dark);
         }
 
+        /* Replay Button */
+        .quiz-replay-container {
+            display: flex;
+            justify-content: center;
+            margin-top: 40px;
+            padding-top: 40px;
+            border-top: 1px solid rgba(0, 0, 0, 0.1);
+        }
+
+        .quiz-replay-button {
+            padding: 14px 35px;
+            border: none;
+            border-radius: var(--radius-button);
+            font-size: 17px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: var(--transition-smooth);
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+            background: var(--success-color);
+            color: #ffffff;
+            font-family: 'Poppins', sans-serif;
+        }
+
+        .quiz-replay-button:hover {
+            background: #45a049;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+        }
+
+        .quiz-replay-button:active {
+            transform: translateY(0);
+        }
+
         /* Mobile Responsive */
         @media (max-width: 599px) {
             .quiz-container {
@@ -589,6 +623,11 @@
                         <!-- Thumbnails will be inserted here -->
                     </div>
                 </div>
+            </div>
+            
+            <!-- Replay Button -->
+            <div class="quiz-replay-container">
+                <button class="quiz-replay-button" id="replayButton">Replay</button>
             </div>
         </div>
     </div>
@@ -827,7 +866,8 @@
                     resultsDescription: document.getElementById('resultsDescription'),
                     quizLevel: document.getElementById('quizLevel'),
                     thumbnailsGrid: document.getElementById('thumbnailsGrid'),
-                    exploreThumbnails: document.getElementById('exploreThumbnails')
+                    exploreThumbnails: document.getElementById('exploreThumbnails'),
+                    replayButton: document.getElementById('replayButton')
                 };
             }
 
@@ -1269,6 +1309,11 @@
                 this.elements.prevButton.addEventListener('click', () => this.handlePrevious());
                 this.elements.nextButton.addEventListener('click', () => this.handleNext());
                 
+                // Replay button
+                if (this.elements.replayButton) {
+                    this.elements.replayButton.addEventListener('click', () => this.restartQuiz());
+                }
+                
                 document.addEventListener('keydown', (e) => {
                     if (e.key === 'ArrowLeft' && !this.elements.prevButton.disabled) {
                         this.handlePrevious();
@@ -1276,6 +1321,35 @@
                         this.handleNext();
                     }
                 });
+            }
+            
+            restartQuiz() {
+                // Reset state
+                this.currentGroup = 0;
+                this.answers = {};
+                
+                // Hide results
+                this.elements.resultsContainer.classList.remove('quiz-results--active');
+                this.elements.resultsContainer.className = 'quiz-results';
+                
+                // Show quiz elements
+                this.elements.quizContent.style.display = 'block';
+                document.getElementById('quizNavigation').style.display = 'flex';
+                
+                // Clear all selections
+                document.querySelectorAll('.quiz-rating__option').forEach(option => {
+                    option.classList.remove('quiz-rating__option--selected');
+                    option.setAttribute('aria-checked', 'false');
+                });
+                
+                // Reset to first group
+                this.showGroup(0);
+                this.updateProgress();
+                this.updateNavigation();
+                
+                // Scroll to top
+                this.elements.quizContent.scrollTop = 0;
+                window.scrollTo(0, 0);
             }
         }
 
