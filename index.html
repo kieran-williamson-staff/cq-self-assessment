@@ -177,6 +177,18 @@
             font-weight: 400;
             border-bottom: 1px solid rgba(0, 0, 0, 0.1);
         }
+        
+        /* Mobile break - hidden by default */
+        .mobile-break {
+            display: none;
+        }
+        
+        /* Show break on mobile screens */
+        @media (max-width: 599px) {
+            .mobile-break {
+                display: block;
+            }
+        }
 
         /* Question Groups */
         .quiz-question-group {
@@ -590,10 +602,11 @@
         <!-- Main Content -->
         <div class="quiz-content" id="quizContent">
             <div class="quiz-scale-hint" role="note" id="scaleHint">
-                1 = Strongly Disagree | 2 = Disagree | 3 = Neutral<br />4 = Agree | 5 = Strongly Agree
+                1 = Strongly Disagree | 2 = Disagree | 3 = Neutral<span class="mobile-break"></span> | 4 = Agree | 5 = Strongly Agree
             </div>
             <!-- Question groups will be inserted here -->
         </div>
+
 
         <!-- Navigation -->
         <div class="quiz-nav" id="quizNavigation">
