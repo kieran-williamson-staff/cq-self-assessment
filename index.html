@@ -1295,7 +1295,7 @@
                     const thumbnail = document.createElement('div');
                     thumbnail.className = 'quiz-thumbnail';
                     
-                    // Highlight the user's actual result (not the clicked one)
+                    // Highlight the user's actual result (and keep it highlighted)
                     if (result.className === this.userResult.className) {
                         thumbnail.classList.add('quiz-thumbnail--active');
                     }
@@ -1314,13 +1314,8 @@
                     
                     // Add click handler
                     thumbnail.addEventListener('click', () => {
-                        // Update active state for visual feedback
-                        document.querySelectorAll('.quiz-thumbnail').forEach(t => {
-                            t.classList.remove('quiz-thumbnail--active');
-                        });
-                        thumbnail.classList.add('quiz-thumbnail--active');
-                        
-                        // Display the selected result
+                        // Don't change the active state - keep it permanently on user's result
+                        // Just display the selected result
                         // Show score only if this is the user's actual result
                         const isUserResult = result.className === this.userResult.className;
                         this.displayResult(result, isUserResult ? this.userScore : null);
