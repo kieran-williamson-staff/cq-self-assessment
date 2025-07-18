@@ -384,11 +384,11 @@
             margin-bottom: 18px;
         }
 
-        /* Score styling */
+        /* Score styling - matches title but smaller */
         .quiz-score {
-            color: var(--text-medium);
-            font-weight: 400;
-            opacity: 0.8;
+            color: var(--text-dark);
+            font-weight: 500;
+            font-size: 20px; /* Slightly smaller than the 23px title */
         }
 
         /* Results description */
@@ -1283,12 +1283,12 @@
                 container.classList.add(`quiz-results--theme-${resultBand.className}`);
             }
             
-            createThumbnails(currentResult) {
+            createThumbnails(resultBand) {
                 const thumbnailsGrid = this.elements.thumbnailsGrid;
                 thumbnailsGrid.innerHTML = '';
                 
                 // Store the user's actual result
-                this.userResult = currentResult;
+                this.userResult = resultBand;
                 
                 // Get all possible results
                 const allResults = this.config.results.bands || [];
@@ -1316,9 +1316,16 @@
                     
                     // Add click handler
                     thumbnail.addEventListener('click', () => {
-                        // Don't change the active state - keep it on user's result
-                        // Just display the selected result (without score since it's not their result)
-                        this.displayResult(result, null);
+                        // Update active state for visual feedback
+                        document.querySelectorAll('.quiz-thumbnail').forEach(t => {
+                            t.classList.remove('quiz-thumbnail--active');
+                        });
+                        thumbnail.classList.add('quiz-thumbnail--active');
+                        
+                        // Display the selected result
+                        // Show score only if this is the user's actual result
+                        const isUserResult = result.className === this.userResult.className;
+                        this.displayResult(result, isUserResult ? this.userScore : null);
                     });
                     
                     thumbnailsGrid.appendChild(thumbnail);
