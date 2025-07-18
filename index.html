@@ -384,6 +384,13 @@
             margin-bottom: 18px;
         }
 
+        /* Score styling */
+        .quiz-score {
+            color: var(--text-medium);
+            font-weight: 400;
+            opacity: 0.8;
+        }
+
         /* Results description */
         .quiz-results-description {
             font-size: 17px;
@@ -858,6 +865,7 @@
                 this.currentGroup = 0;
                 this.answers = {};
                 this.elements = {};
+                this.userScore = null; // Store the user's actual score
                 this.init();
             }
 
@@ -1220,6 +1228,9 @@
                     return;
                 }
                 
+                // Store the user's actual score
+                this.userScore = scores.totalScore;
+                
                 // Hide quiz elements
                 this.elements.quizContent.style.display = 'none';
                 document.getElementById('quizNavigation').style.display = 'none';
@@ -1229,7 +1240,7 @@
                 this.elements.resultsContainer.classList.add(`quiz-results--theme-${resultBand.className}`);
                 
                 // Set result content
-                this.displayResult(resultBand);
+                this.displayResult(resultBand, scores.totalScore);
                 
                 // Create thumbnails
                 this.createThumbnails(resultBand);
@@ -1244,11 +1255,19 @@
                 }
             }
             
-            displayResult(resultBand) {
+            displayResult(resultBand, score = null) {
                 this.elements.resultsImage.src = resultBand.image;
                 this.elements.resultsImage.alt = `${resultBand.className} illustration`;
                 this.elements.resultsDescription.textContent = resultBand.description;
-                this.elements.quizLevel.textContent = resultBand.title;
+                
+                // Display title with score
+                // Use user's actual score when available, otherwise use the provided score
+                const displayScore = score !== null ? score : this.userScore;
+                if (displayScore !== null) {
+                    this.elements.quizLevel.innerHTML = `${resultBand.title} <span class="quiz-score">(${displayScore})</span>`;
+                } else {
+                    this.elements.quizLevel.textContent = resultBand.title;
+                }
                 
                 // Add error handling for image
                 this.elements.resultsImage.onerror = () => {
@@ -1298,8 +1317,8 @@
                     // Add click handler
                     thumbnail.addEventListener('click', () => {
                         // Don't change the active state - keep it on user's result
-                        // Just display the selected result
-                        this.displayResult(result);
+                        // Just display the selected result (without score since it's not their result)
+                        this.displayResult(result, null);
                     });
                     
                     thumbnailsGrid.appendChild(thumbnail);
@@ -1343,6 +1362,7 @@
                 // Reset state
                 this.currentGroup = 0;
                 this.answers = {};
+                this.userScore = null;
                 
                 // Hide results
                 this.elements.resultsContainer.classList.remove('quiz-results--active');
