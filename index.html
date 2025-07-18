@@ -388,7 +388,7 @@
         .quiz-score {
             color: var(--text-dark);
             font-weight: 500;
-            font-size: 20px; /* Slightly smaller than the 23px title */
+            font-size: 18px; /* A couple pixels smaller than the 23px title */
         }
 
         /* Results description */
@@ -1260,11 +1260,9 @@
                 this.elements.resultsImage.alt = `${resultBand.className} illustration`;
                 this.elements.resultsDescription.textContent = resultBand.description;
                 
-                // Display title with score
-                // Use user's actual score when available, otherwise use the provided score
-                const displayScore = score !== null ? score : this.userScore;
-                if (displayScore !== null) {
-                    this.elements.quizLevel.innerHTML = `${resultBand.title} <span class="quiz-score">(${displayScore})</span>`;
+                // Display title with or without score
+                if (score !== null) {
+                    this.elements.quizLevel.innerHTML = `${resultBand.title} <span class="quiz-score">(${score})</span>`;
                 } else {
                     this.elements.quizLevel.textContent = resultBand.title;
                 }
